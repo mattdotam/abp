@@ -2,4 +2,9 @@
   command = "npm install && yarn build"
   base = "/"
   publish = "/build/"
-  functions = "functions/"
+  functions = "/functions/"
+
+[[redirect]]
+  from = "/*"
+  to = "/functions/server"
+  status = 200
