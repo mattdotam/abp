@@ -1,3 +1,5 @@
 [build]
   command = "npm install && yarn build"
-  functions = "functions"
+  base = "/"
+  public = "/build/"
+  functions = ".netlify/functions/"
