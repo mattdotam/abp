@@ -1,5 +1,5 @@
 [build]
   command = "npm install && yarn build"
   base = "/"
-  public = "/build/"
-  functions = ".netlify/functions/"
+  publish = "/build/"
+  functions = "functions/"
