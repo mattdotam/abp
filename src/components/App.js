@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import NavBar from "./NavBar";
+import Footer from "./Footer";
 import { Route, Switch } from "react-router-dom";
 import { Grid, Paper } from "@material-ui/core";
 import Home from "./Home";
@@ -56,6 +57,9 @@ class App extends Component {
               render={() => <Contact />}
             />
           </Switch>
+        </Grid>
+        <Grid item>
+          <Footer />
         </Grid>
       </Grid>
     );
