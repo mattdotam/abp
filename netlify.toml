@@ -3,8 +3,3 @@
   base = "/"
   publish = "/build/"
   functions = "/functions/"
-
-[[redirect]]
-  from = "/*"
-  to = "/functions/server"
-  status = 200
