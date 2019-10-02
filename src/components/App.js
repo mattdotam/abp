@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import NavBar from "./NavBar";
 import { Route, Switch } from "react-router-dom";
 import Home from "./Home";
+import About from "./About";
 
 // class LambdaDemo extends Component {
 //   constructor(props) {
@@ -39,6 +40,13 @@ class App extends Component {
         <NavBar />
         <Switch>
           <Route exact path="/" render={() => <Home />} />
+        </Switch>
+        <Switch>
+          <Route
+            exact
+            path={["/about", "/about/"]}
+            render={() => <About />}
+          />
         </Switch>
       </div>
     );
