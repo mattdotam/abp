@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NavBar from "./NavBar";
-import { Container } from "@material-ui/core";
+import { Route, Switch } from "react-router-dom";
+import Home from "./Home";
 
 // class LambdaDemo extends Component {
 //   constructor(props) {
@@ -36,9 +37,9 @@ class App extends Component {
     return (
       <div>
         <NavBar />
-        <Container>
-          <h1>App</h1>
-        </Container>
+        <Switch>
+          <Route exact path="/" render={() => <Home />} />
+        </Switch>
       </div>
     );
   }
