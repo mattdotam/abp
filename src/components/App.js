@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import NavBar from "./NavBar";
+import { Container } from "@material-ui/core";
 
 // class LambdaDemo extends Component {
 //   constructor(props) {
@@ -33,7 +35,10 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1>App</h1>
+        <NavBar />
+        <Container>
+          <h1>App</h1>
+        </Container>
       </div>
     );
   }

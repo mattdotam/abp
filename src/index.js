@@ -3,13 +3,16 @@ import ReactDOM from "react-dom";
 import { ThemeProvider } from "@material-ui/styles";
 import { CssBaseline } from "@material-ui/core";
 import theme from "./styles/theme";
+import { BrowserRouter } from "react-router-dom";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </CssBaseline>
   </ThemeProvider>,
   document.getElementById("root")
