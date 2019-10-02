@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import NavBar from "./NavBar";
 import { Route, Switch } from "react-router-dom";
+import { Grid, Paper } from "@material-ui/core";
 import Home from "./Home";
 import About from "./About";
 import Contact from "./Contact";
@@ -37,24 +38,26 @@ import Contact from "./Contact";
 class App extends Component {
   render() {
     return (
-      <div>
-        <NavBar />
-        <Switch>
-          <Route exact path="/" render={() => <Home />} />
-        </Switch>
-        <Switch>
-          <Route
-            exact
-            path={["/about", "/about/"]}
-            render={() => <About />}
-          />
-          <Route
-            exact
-            path={["/contact", "/contact/"]}
-            render={() => <Contact />}
-          />
-        </Switch>
-      </div>
+      <Grid direction="column" container>
+        <Grid item>
+          <NavBar />
+        </Grid>
+        <Grid item>
+          <Switch>
+            <Route exact path="/" render={() => <Home />} />
+            <Route
+              exact
+              path={["/about", "/about/"]}
+              render={() => <About />}
+            />
+            <Route
+              exact
+              path={["/contact", "/contact/"]}
+              render={() => <Contact />}
+            />
+          </Switch>
+        </Grid>
+      </Grid>
     );
   }
 }
