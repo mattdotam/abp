@@ -1,5 +1,5 @@
 [build]
-  command = "npm install && yarn build"
+  command = "yarn build"
   base = "/"
-  publish = "/build/"
-  functions = "/functions/"
+  functions = "lambda"
+  publish = "build"
