@@ -95,6 +95,7 @@ const Browser = props => {
       <Grid
         key={i}
         wrap={`${settings.direction === "row" ? "nowrap" : "wrap"}`}
+        direction={settings.direction}
         style={{
           width: settings.stack.width,
           height: settings.stack.height,
@@ -111,7 +112,11 @@ const Browser = props => {
           .map((b, j) => {
             return (
               <Grid
-                style={{ maxWidth: "100%", maxHeight: "100%" }}
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  lineHeight: 0,
+                }}
                 key={`${i}-${j}`}
                 item>
                 <img
@@ -134,14 +139,11 @@ const Browser = props => {
       ref={browseRef}
       className={classes.root}
       style={{ height: `${browseHeight}` }}
+      direction={settings.direction === "column" ? "row" : "column"}
       container>
-      <Grid item>
-        <Grid wrap="nowrap" direction={settings.direction}>
-          {stackArr.map((a, i) => {
-            return a;
-          })}
-        </Grid>
-      </Grid>
+      {stackArr.map((a, i) => {
+        return a;
+      })}
     </Grid>
   );
 };
