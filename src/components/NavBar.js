@@ -12,6 +12,7 @@ import {
   withStyles,
 } from "@material-ui/core";
 import styles from "../styles/NavBarStyles";
+import logo from "../bin/abp-logo.png";
 
 const NavBar = props => {
   const { classes } = props;
@@ -20,7 +21,17 @@ const NavBar = props => {
       className={classes.appBar}
       position="fixed"
       color="primary">
-      <Toolbar className={classes.toolBar}>Testing</Toolbar>
+      <Toolbar className={classes.toolBar}>
+        <Grid justify="space-between" direction="row" container>
+          <Grid item>
+            <img
+              src={logo}
+              style={{ height: "92px", width: "auto" }}
+            />
+          </Grid>
+          <Grid item></Grid>
+        </Grid>
+      </Toolbar>
     </AppBar>
   );
 };
