@@ -46,7 +46,6 @@ function getBrowserSettings(width, height) {
 }
 
 const Browser = props => {
-  console.log(props);
   const { classes } = props;
   const browseRef = useRef(null);
   const [browseHeight, setBrowseHeight] = useState({});
@@ -101,26 +100,31 @@ const Browser = props => {
           height: settings.stack.height,
           overflowX: settings.overflowX,
           overflowY: settings.overflowY,
-          backgroundColor: ["red", "green", "blue"][i],
         }}
         container>
-        {photosArr.map((b, j) => {
-          return (
-            <Grid
-              style={{ maxWidth: "100%", maxHeight: "100%" }}
-              key={`${i}-${j}`}
-              item>
-              <img
-                style={{
-                  width: settings.imgWidth,
-                  height: settings.imgHeight,
-                }}
-                src={`${b}`}
-                alt={`${b}`}
-              />
-            </Grid>
-          );
-        })}
+        {photosArr
+          .slice(
+            i * Math.floor(photosArr.length / settings.stack.number),
+            (i + 1) *
+              Math.floor(photosArr.length / settings.stack.number)
+          )
+          .map((b, j) => {
+            return (
+              <Grid
+                style={{ maxWidth: "100%", maxHeight: "100%" }}
+                key={`${i}-${j}`}
+                item>
+                <img
+                  style={{
+                    width: settings.imgWidth,
+                    height: settings.imgHeight,
+                  }}
+                  src={`${b}`}
+                  alt={`${b}`}
+                />
+              </Grid>
+            );
+          })}
       </Grid>
     );
   }
