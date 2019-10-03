@@ -12,7 +12,7 @@ const About = () => {
           About Iain
         </Typography>
         <Typography
-          style={{ color: "white" }}
+          style={{ color: "white", marginBottom: "1rem" }}
           variant="body1"
           component="p">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
@@ -25,7 +25,7 @@ const About = () => {
           deserunt mollit anim id est laborum.
         </Typography>
         <Typography
-          style={{ color: "white" }}
+          style={{ color: "white", marginBottom: "1rem" }}
           variant="body1"
           component="p">
           Integer enim neque volutpat ac tincidunt vitae semper quis

@@ -66,7 +66,6 @@ const theme = createMuiTheme({
       body1: {
         color: "#333437",
         fontSize: "1rem",
-        marginBottom: "1rem",
         fontWeight: 400,
         "& a": {
           color: "#0776a0",
