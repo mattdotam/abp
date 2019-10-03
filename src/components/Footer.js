@@ -1,15 +1,17 @@
 import React from "react";
-import { Grid, AppBar, Toolbar } from "@material-ui/core";
+import { Grid, AppBar, Toolbar, withStyles } from "@material-ui/core";
+import styles from "../styles/FooterStyles";
 
-const Footer = () => {
+const Footer = props => {
+  const { classes } = props;
   return (
     <AppBar
       position="fixed"
-      style={{ top: "auto", bottom: 0 }}
+      className={classes.appBar}
       color="primary">
-      <Toolbar>Footer</Toolbar>
+      <Toolbar className={classes.toolBar}>Footer</Toolbar>
     </AppBar>
   );
 };
 
-export default Footer;
+export default withStyles(styles)(Footer);

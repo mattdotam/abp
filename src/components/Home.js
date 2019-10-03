@@ -4,8 +4,10 @@ import Browser from "./Browser";
 
 const Home = () => {
   return (
-    <Grid direction="column">
-      <Browser />
+    <Grid direction="column" container>
+      <Grid item>
+        <Browser />
+      </Grid>
     </Grid>
   );
 };
