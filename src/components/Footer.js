@@ -9,7 +9,10 @@ const Footer = props => {
       position="fixed"
       className={classes.appBar}
       color="primary">
-      <Toolbar className={classes.toolBar}>Footer</Toolbar>
+      <Toolbar className={classes.toolBar}>
+        Copyright information, social links, privacy policy, etc to go
+        here
+      </Toolbar>
     </AppBar>
   );
 };
