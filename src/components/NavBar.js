@@ -9,14 +9,20 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  withStyles,
 } from "@material-ui/core";
+import styles from "../styles/NavBarStyles";
 
-const NavBar = () => {
+const NavBar = props => {
+  const { classes } = props;
   return (
-    <AppBar position="fixed" color="primary">
-      <Toolbar>Testing</Toolbar>
+    <AppBar
+      className={classes.appBar}
+      position="fixed"
+      color="primary">
+      <Toolbar className={classes.toolBar}>Testing</Toolbar>
     </AppBar>
   );
 };
 
-export default NavBar;
+export default withStyles(styles)(NavBar);

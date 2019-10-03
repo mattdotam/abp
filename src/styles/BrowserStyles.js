@@ -1,7 +1,8 @@
 const styles = theme => ({
   root: {
     position: "absolute",
-    height: "100%",
+    marginTop: "96px",
+    height: "calc(100% - 96px)",
   },
 });
 

@@ -73,11 +73,11 @@ const Browser = props => {
   useLayoutEffect(() => {
     if (browseWidth >= 600) {
       setBrowseHeight(
-        browseRef.current.getBoundingClientRect().height - 96
+        browseRef.current.getBoundingClientRect().height - 48
       );
     } else {
       setBrowseHeight(
-        browseRef.current.getBoundingClientRect().height - 112
+        browseRef.current.getBoundingClientRect().height - 48
       );
     }
   }, [browseRef.current, size]);
