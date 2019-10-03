@@ -45,7 +45,8 @@ function getBrowserSettings(width, height) {
   };
 }
 
-function Browser(props) {
+const Browser = props => {
+  console.log(props);
   const { classes } = props;
   const browseRef = useRef(null);
   const [browseHeight, setBrowseHeight] = useState({});
@@ -87,12 +88,7 @@ function Browser(props) {
 
   const settings = getBrowserSettings(browseWidth, browseHeight);
 
-  const photosArr = [];
-  for (let i = 0; i < 12; i++) {
-    photosArr.push(
-      `https://picsum.photos/${600 + Math.floor(Math.random() * 100)}`
-    );
-  }
+  const photosArr = props.photosArr;
 
   const stackArr = [];
   for (let i = 0; i < settings.stack.number; i++) {
@@ -144,6 +140,6 @@ function Browser(props) {
       </Grid>
     </Grid>
   );
-}
+};
 
 export default withStyles(styles)(Browser);
