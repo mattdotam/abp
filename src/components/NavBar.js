@@ -13,7 +13,7 @@ import {
 
 const NavBar = () => {
   return (
-    <AppBar position="sticky" color="primary">
+    <AppBar position="fixed" color="primary">
       <Toolbar>Testing</Toolbar>
     </AppBar>
   );
