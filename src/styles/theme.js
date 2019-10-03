@@ -29,6 +29,11 @@ const theme = createMuiTheme({
         textDecoration: "none",
       },
     },
+    MuiContainer: {
+      root: {
+        marginTop: "120px",
+      },
+    },
     MuiTypography: {
       h1: {
         fontSize: "2.225rem",
@@ -60,6 +65,7 @@ const theme = createMuiTheme({
       body1: {
         color: "#333437",
         fontSize: "1rem",
+        marginBottom: "1rem",
         fontWeight: 400,
         "& a": {
           color: "#0776a0",
