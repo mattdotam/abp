@@ -111,7 +111,7 @@ class NavBar extends Component {
               <RouterLink to="/">
                 <img
                   src={logo}
-                  style={{ height: "96px", width: "auto" }}
+                  style={{ height: "90px", width: "auto" }}
                   alt="ArtbyPhotos Logo"
                 />
               </RouterLink>

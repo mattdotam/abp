@@ -24,7 +24,6 @@ import Contact from "./Contact";
 
 //   render() {
 //     const { loading, msg } = this.state
-
 //     return (
 //       <p>
 //         <button onClick={this.handleClick("hello")}>{loading ? "Loading..." : "Call Lambda"}</button>
