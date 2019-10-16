@@ -6,6 +6,7 @@ import { Grid, Paper } from "@material-ui/core";
 import Home from "./Home";
 import About from "./About";
 import Contact from "./Contact";
+import Admin from "./Admin";
 
 // class LambdaDemo extends Component {
 //   constructor(props) {
@@ -36,6 +37,20 @@ import Contact from "./Contact";
 // }
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cred: undefined,
+    };
+    this.setCredential = this.setCredential.bind(this);
+    this.setAuth = this.setAuth.bind(this);
+  }
+  setCredential(obj) {
+    this.setState({ cred: obj });
+  }
+  setAuth(res) {
+    this.setState({ auth: res });
+  }
   render() {
     return (
       <Grid direction="column" container>
@@ -54,6 +69,16 @@ class App extends Component {
               exact
               path={["/contact", "/contact/"]}
               render={() => <Contact />}
+            />
+            <Route
+              exact
+              path={["/admin", "/admin/"]}
+              render={() => (
+                <Admin
+                  cred={this.state.cred}
+                  setCredential={this.setCredential}
+                />
+              )}
             />
           </Switch>
         </Grid>
