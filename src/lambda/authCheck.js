@@ -32,7 +32,6 @@ exports.handler = async (event, context) => {
     const token = jwt.sign({ userid }, process.env.JWT_SECRET, {
       expiresIn: "30 days",
     });
-    console.log(token);
     return {
       statusCode: 200,
       headers: {
