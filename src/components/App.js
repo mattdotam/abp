@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 import { Route, Switch } from "react-router-dom";
@@ -40,16 +41,73 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cred: undefined,
+      token: null,
+      role: null,
+      avatar: null,
     };
-    this.setCredential = this.setCredential.bind(this);
-    this.setAuth = this.setAuth.bind(this);
+    this.getToken = this.getToken.bind(this);
+    this.setToken = this.setToken.bind(this);
+    this.checkToken = this.checkToken.bind(this);
+    this.clearToken = this.clearToken.bind(this);
+    this.setRole = this.setRole.bind(this);
+    this.clearRole = this.clearRole.bind(this);
+    this.setAvatar = this.setAvatar.bind(this);
+    this.clearAvatar = this.clearAvatar.bind(this);
   }
-  setCredential(obj) {
-    this.setState({ cred: obj });
+  componentDidMount() {
+    this.getToken();
   }
-  setAuth(res) {
-    this.setState({ auth: res });
+  getToken() {
+    if (window.localStorage.getItem("token")) {
+      this.setState(
+        {
+          token: JSON.parse(window.localStorage.getItem("token")),
+          avatar: JSON.parse(window.localStorage.getItem("avatar")),
+        },
+        () => {
+          this.checkToken();
+        }
+      );
+    }
+  }
+  setToken(token) {
+    this.setState({ token });
+    window.localStorage.setItem("token", JSON.stringify(token));
+  }
+  checkToken() {
+    if (this.state.token !== null) {
+      axios
+        .post("/.netlify/functions/tokenCheck", {
+          token: this.state.token,
+        })
+        .then(tokenCheck => {
+          if (tokenCheck.status === 200) {
+            this.setRole(tokenCheck.data);
+          } else {
+            this.clearRole();
+            this.clearAvatar();
+            this.clearToken();
+          }
+        });
+    }
+  }
+  clearToken() {
+    this.setState({ token: null });
+    window.localStorage.removeItem("token");
+  }
+  setRole(role) {
+    this.setState({ role });
+  }
+  clearRole() {
+    this.setState({ role: null });
+  }
+  setAvatar(link) {
+    this.setState({ avatar: link });
+    window.localStorage.setItem("avatar", JSON.stringify(link));
+  }
+  clearAvatar() {
+    this.setState({ avatar: null });
+    window.localStorage.removeItem("avatar");
   }
   render() {
     return (
@@ -75,8 +133,13 @@ class App extends Component {
               path={["/admin", "/admin/"]}
               render={() => (
                 <Admin
-                  cred={this.state.cred}
-                  setCredential={this.setCredential}
+                  token={this.state.token}
+                  role={this.state.role}
+                  setToken={this.setToken}
+                  checkToken={this.checkToken}
+                  clearRole={this.clearRole}
+                  clearToken={this.clearToken}
+                  setAvatar={this.setAvatar}
                 />
               )}
             />

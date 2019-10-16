@@ -7,9 +7,7 @@ exports.handler = async (event, context) => {
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, body: "Method Not Allowed" };
   }
-
   const params = JSON.parse(event.body);
-
   const client = new OAuth2Client(
     "88561498986-54t72qa2e37kslmi3uiblm3gu0te32ev.apps.googleusercontent.com"
   );
@@ -25,21 +23,21 @@ exports.handler = async (event, context) => {
     //const domain = payload['hd'];
     return userid;
   }
-
   let userid = await verify();
-
   if (userid === params.userid) {
-    const token = jwt.sign({ userid }, process.env.JWT_SECRET, {
-      expiresIn: "30 days",
-    });
+    const token = jwt.sign(
+      { userid, role: "admin" },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "30 days",
+      }
+    );
     return {
       statusCode: 200,
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify({
-        token,
-      }),
+      body: token,
     };
   } else {
     return {
