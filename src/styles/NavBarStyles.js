@@ -18,6 +18,31 @@ const styles = theme => ({
       opacity: 1,
     },
   },
+  navLinkDesktop: {
+    display: "flex",
+    margin: 0,
+    justifySelf: "center",
+    alignSelf: "center",
+    position: "relative",
+    top: "50%",
+    transform: "translateY(-50%)",
+  },
+  navAdminLink: {
+    textDecoration: "none",
+    color: "#333437",
+    fontWeight: 400,
+    opacity: 0.75,
+    transition: "opacity 150ms",
+    "&:hover": {
+      transition: "opacity 150ms",
+      opacity: 1,
+    },
+  },
+  navAvatarImg: {
+    width: "60px",
+    height: "60px",
+    borderRadius: "50%",
+  },
   active: {
     color: "#ff8500",
     opacity: 1,

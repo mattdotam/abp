@@ -7,7 +7,6 @@ const Browser = props => {
     classes,
     settings,
     browseRef,
-    browseWidth,
     browseHeight,
     single,
   } = props;

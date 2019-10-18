@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, AppBar, Toolbar, withStyles } from "@material-ui/core";
+import { AppBar, Toolbar, withStyles } from "@material-ui/core";
 import styles from "../styles/FooterStyles";
 
 const Footer = props => {

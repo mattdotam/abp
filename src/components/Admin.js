@@ -39,13 +39,6 @@ const Admin = props => {
             isSignedIn={true}
           />
         )}
-      {props.token !== null && (
-        <GoogleLogout
-          clientId="88561498986-54t72qa2e37kslmi3uiblm3gu0te32ev.apps.googleusercontent.com"
-          buttonText="Logout"
-          onLogoutSuccess={logout}
-          onFailure={logout}></GoogleLogout>
-      )}
     </Container>
   );
 };

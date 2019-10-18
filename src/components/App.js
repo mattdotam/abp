@@ -3,7 +3,7 @@ import axios from "axios";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 import { Route, Switch } from "react-router-dom";
-import { Grid, Paper } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Home from "./Home";
 import About from "./About";
 import Contact from "./Contact";
@@ -113,7 +113,13 @@ class App extends Component {
     return (
       <Grid direction="column" container>
         <Grid item>
-          <NavBar />
+          <NavBar
+            avatar={this.state.avatar}
+            role={this.state.role}
+            clearRole={this.clearRole}
+            clearToken={this.clearToken}
+            clearAvatar={this.clearAvatar}
+          />
         </Grid>
         <Grid item>
           <Switch>

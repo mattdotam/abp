@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Grid, Typography, withStyles } from "@material-ui/core";
 import styles from "../styles/SingleStyles";
 
