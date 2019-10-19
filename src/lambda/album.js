@@ -8,12 +8,29 @@ const albumSchema = new Schema({
   title: String,
   createStamp: Number,
   dateStamp: Number,
-  bgImg: String,
   description: String,
   slug: String,
   photos: [String],
 });
 const Album = mongoose.model("album", albumSchema);
+
+// Connect to MongoDB
+// connect to MongoDB
+const dbUrl = process.env.MONGO,
+  dbOptions = { useNewUrlParser: true, useFindAndModify: true };
+
+let cachedDB = null;
+
+function connectToDatabase() {
+  if (cachedDB) {
+    return Promise.resolve(cachedDB);
+  }
+
+  mongoose.connect(dbUrl, dbOptions).then(db => {
+    cachedDB = db;
+    return cachedDB;
+  });
+}
 
 exports.handler = async (event, context) => {
   switch (event.httpMethod) {
@@ -35,10 +52,11 @@ exports.handler = async (event, context) => {
           }
         });
       // connect to MongoDB
-      const dbUrl = process.env.MONGO,
-        dbOptions = { useNewUrlParser: true, useFindAndModify: true };
-      mongoose.connect(dbUrl, dbOptions);
+      // const dbUrl = process.env.MONGO,
+      //   dbOptions = { useNewUrlParser: true, useFindAndModify: true };
+      // mongoose.connect(dbUrl, dbOptions);
       // Post Photo
+      connectToDatabase();
       if (roleCheck === true) {
         try {
           const newAlbum = await Album.create({
@@ -46,7 +64,6 @@ exports.handler = async (event, context) => {
             title: params.title,
             createStamp: Math.floor(new Date().getTime() / 1000),
             dateStamp: params.dateStamp,
-            bgImg: params.bgImg,
             description: params.description,
             slug: params.slug,
             photos: params.photos,
@@ -69,12 +86,13 @@ exports.handler = async (event, context) => {
       }
     }
     case "GET": {
-      const dbUrl = process.env.MONGO,
-        dbOptions = {
-          useNewUrlParser: true,
-          useFindAndModify: true,
-        };
-      mongoose.connect(dbUrl, dbOptions);
+      // const dbUrl = process.env.MONGO,
+      //   dbOptions = {
+      //     useNewUrlParser: true,
+      //     useFindAndModify: true,
+      //   };
+      // mongoose.connect(dbUrl, dbOptions);
+      connectToDatabase();
       const query = event.queryStringParameters;
       const lookup = async q => {
         if (Object.entries(q).length === 0) {
@@ -86,7 +104,6 @@ exports.handler = async (event, context) => {
                 id: d.id,
                 title: d.title,
                 dateStamp: d.dateStamp,
-                bgImg: d.bgImg,
                 slug: d.slug,
                 photos: d.photos,
               })
@@ -101,7 +118,6 @@ exports.handler = async (event, context) => {
               id: data.id,
               title: data.title,
               dateStamp: data.dateStamp,
-              bgImg: data.bgImg,
               slug: data.slug,
               photos: data.photos,
             };
@@ -131,9 +147,10 @@ exports.handler = async (event, context) => {
           }
         });
       // connect to MongoDB
-      const dbUrl = process.env.MONGO,
-        dbOptions = { useNewUrlParser: true, useFindAndModify: true };
-      mongoose.connect(dbUrl, dbOptions);
+      // const dbUrl = process.env.MONGO,
+      //   dbOptions = { useNewUrlParser: true, useFindAndModify: true };
+      // mongoose.connect(dbUrl, dbOptions);
+      connectToDatabase();
       // PATCH Photo
       if (roleCheck === true) {
         try {
@@ -144,7 +161,6 @@ exports.handler = async (event, context) => {
             {
               title: params.title,
               dateStamp: params.dateStamp,
-              bgImg: params.bgImg,
               description: params.description,
               slug: params.slug,
               photos: params.photos,
@@ -184,9 +200,10 @@ exports.handler = async (event, context) => {
           }
         });
       // connect to MongoDB
-      const dbUrl = process.env.MONGO,
-        dbOptions = { useNewUrlParser: true, useFindAndModify: true };
-      mongoose.connect(dbUrl, dbOptions);
+      // const dbUrl = process.env.MONGO,
+      //   dbOptions = { useNewUrlParser: true, useFindAndModify: true };
+      // mongoose.connect(dbUrl, dbOptions);
+      connectToDatabase();
       // DELETE Photo
       if (roleCheck === true) {
         try {
@@ -217,6 +234,4 @@ exports.handler = async (event, context) => {
       };
     }
   }
-  // const params = JSON.parse(event.body);
-  // const verify = jwt.verify(params.token, process.env.JWT_SECRET);
 };
