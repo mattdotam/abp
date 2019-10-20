@@ -97,15 +97,16 @@ exports.handler = async (event, context) => {
       const lookup = async q => {
         if (Object.entries(q).length === 0) {
           return await Album.find({}).then(data => {
-            console.log(data);
             let results = [];
             data.forEach(d =>
               results.push({
                 id: d.id,
                 title: d.title,
                 dateStamp: d.dateStamp,
+                createStamp: d.createStamp,
                 slug: d.slug,
                 photos: d.photos,
+                description: d.description,
               })
             );
             return results;

@@ -14,6 +14,7 @@ import { GoogleLogin } from "react-google-login";
 import axios from "axios";
 import uuidv4 from "uuid/v4";
 import AddAlbum from "./AddAlbum";
+import EditAlbum from "./EditAlbum";
 
 const Admin = props => {
   const { classes } = props;
@@ -26,6 +27,17 @@ const Admin = props => {
     slug: "album-title",
     photos: [],
   });
+  const [editAlbumObject, setEditAlbumObject] = useState({
+    id: undefined,
+    title: undefined,
+    createStamp: undefined,
+    dateStamp: undefined,
+    description: undefined,
+    slug: undefined,
+    photos: undefined,
+  });
+  const [openEdit, setOpenEdit] = React.useState(false);
+
   const responseGoogle = response => {
     props.setAvatar(response.profileObj.imageUrl);
     if (
@@ -76,8 +88,12 @@ const Admin = props => {
         ...albumData,
         token: props.token,
       })
-      .then(albumPatch => {
-        getAlbums();
+      .then(async albumPatch => {
+        await axios
+          .get(`/.netlify/functions/album`)
+          .then(albumsList => {
+            setAlbums(albumsList.data);
+          });
       });
   };
   // Album DELETE
@@ -146,53 +162,6 @@ const Admin = props => {
         {props.token !== null && (
           <Grid spacing={1} direction="column">
             <Grid item>
-              <div>
-                <button
-                  onClick={() =>
-                    albumPost({
-                      id: "id12345",
-                      title: "album title",
-                      dateStamp: Math.floor(
-                        new Date().getTime() / 1000
-                      ),
-                      bgImg: "base64 img data",
-                      description: "I am an album description",
-                      slug: "album-title",
-                      photos: ["photoid-12345", "photoid-54321"],
-                    })
-                  }>
-                  Album POST Test
-                </button>
-                <button onClick={() => albumGet("id12345")}>
-                  Album GET Test
-                </button>
-                <button
-                  onClick={() =>
-                    albumPatch({
-                      id: "id12345",
-                      title: "Patched album title",
-                      dateStamp: Math.floor(
-                        new Date().getTime() / 1000
-                      ),
-                      bgImg: "base64 img data",
-                      description: "I am an album description",
-                      slug: "patched-album-title",
-                      photos: ["photoid-12345", "photoid-54321"],
-                    })
-                  }>
-                  Album PATCH Test
-                </button>
-                <button
-                  onClick={() =>
-                    albumDelete({
-                      id: "id12345",
-                    })
-                  }>
-                  Album DELETE Test
-                </button>
-              </div>
-            </Grid>
-            <Grid item>
               <Typography variant="h2" component="h2">
                 Albums{" "}
                 <span>
@@ -200,6 +169,13 @@ const Admin = props => {
                     addAlbumObject={addAlbumObject}
                     setAddAlbumObject={setAddAlbumObject}
                     albumPost={albumPost}
+                  />
+                  <EditAlbum
+                    openEdit={openEdit}
+                    setOpenEdit={setOpenEdit}
+                    editAlbumObject={editAlbumObject}
+                    setEditAlbumObject={setEditAlbumObject}
+                    albumPatch={albumPatch}
                   />
                 </span>
               </Typography>
@@ -220,7 +196,11 @@ const Admin = props => {
                                 <Button
                                   size="small"
                                   variant="contained"
-                                  color="primary">
+                                  color="primary"
+                                  onClick={() => {
+                                    setEditAlbumObject(album);
+                                    setOpenEdit(true);
+                                  }}>
                                   Edit
                                 </Button>
                               </Grid>
@@ -256,7 +236,18 @@ const Admin = props => {
                                 <Typography
                                   variant="body1"
                                   component="span">
-                                  {`(${album.dateStamp})`}
+                                  {`${
+                                    new Date(album.dateStamp * 1000)
+                                      .toLocaleString()
+                                      .split(",")[0]
+                                  }`}
+                                </Typography>
+                              </Grid>
+                              <Grid item>
+                                <Typography
+                                  variant="body1"
+                                  component="span">
+                                  {`${album.description}`}
                                 </Typography>
                               </Grid>
                             </Grid>
