@@ -13,8 +13,16 @@ import styles from "../styles/AdminStyles";
 import { GoogleLogin } from "react-google-login";
 import axios from "axios";
 import uuidv4 from "uuid/v4";
+import Icon from "@mdi/react";
+import {
+  mdiFilePlus,
+  mdiPencil,
+  mdiTrashCan,
+  mdiCameraPlus,
+} from "@mdi/js";
 import AddAlbum from "./AddAlbum";
 import EditAlbum from "./EditAlbum";
+import AddPhoto from "./AddPhoto";
 
 const Admin = props => {
   const { classes } = props;
@@ -37,6 +45,17 @@ const Admin = props => {
     photos: undefined,
   });
   const [openEdit, setOpenEdit] = React.useState(false);
+  const [addPhotoObject, setAddPhotoObject] = useState({
+    id: uuidv4(),
+    title: "Photo Title",
+    albumId: undefined,
+    albumTitle: undefined,
+    dateStamp: Math.floor(new Date().getTime() / 1000),
+    description: "Photo Description",
+    slug: "photo-slug",
+    photoData: undefined,
+  });
+  const [openAddPhoto, setOpenAddPhoto] = React.useState(false);
 
   const responseGoogle = response => {
     props.setAvatar(response.profileObj.imageUrl);
@@ -177,6 +196,12 @@ const Admin = props => {
                     setEditAlbumObject={setEditAlbumObject}
                     albumPatch={albumPatch}
                   />
+                  <AddPhoto
+                    openAddPhoto={openAddPhoto}
+                    setOpenAddPhoto={setOpenAddPhoto}
+                    addPhotoObject={addPhotoObject}
+                    setAddPhotoObject={setAddPhotoObject}
+                  />
                 </span>
               </Typography>
             </Grid>
@@ -201,21 +226,36 @@ const Admin = props => {
                                     setEditAlbumObject(album);
                                     setOpenEdit(true);
                                   }}>
-                                  Edit
+                                  <Icon
+                                    path={mdiPencil}
+                                    title="Edit Album"
+                                    size={1}
+                                    horizontal
+                                    vertical
+                                    rotate={180}
+                                    color="white"
+                                  />
                                 </Button>
                               </Grid>
                               <Grid item>
                                 <Button
                                   size="small"
                                   variant="contained"
-                                  color="secondary"
                                   style={{
                                     backgroundColor: red[500],
                                   }}
                                   onClick={() =>
                                     albumDelete({ id: album.id })
                                   }>
-                                  Delete
+                                  <Icon
+                                    path={mdiTrashCan}
+                                    title="Delete Album"
+                                    size={1}
+                                    horizontal
+                                    vertical
+                                    rotate={180}
+                                    color="white"
+                                  />
                                 </Button>
                               </Grid>
                             </Grid>
@@ -243,13 +283,47 @@ const Admin = props => {
                                   }`}
                                 </Typography>
                               </Grid>
-                              <Grid item>
-                                <Typography
-                                  variant="body1"
-                                  component="span">
-                                  {`${album.description}`}
-                                </Typography>
-                              </Grid>
+                            </Grid>
+                            <Grid item>
+                              <Typography
+                                variant="body1"
+                                component="span">
+                                {`${album.description}`}
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <Button
+                                size="small"
+                                variant="contained"
+                                color="secondary"
+                                onClick={() => {
+                                  // const [addPhotoObject, setAddPhotoObject] = useState({
+                                  //   id: uuidv4(),
+                                  //   title: "Photo Title",
+                                  //   album: undefined,
+                                  //   dateStamp: Math.floor(new Date().getTime() / 1000),
+                                  //   description: "Photo Description",
+                                  //   slug: "photo-slug",
+                                  //   photoData: undefined,
+                                  // });
+                                  setAddPhotoObject({
+                                    ...addPhotoObject,
+                                    albumId: album.id,
+                                    albumTitle: album.title,
+                                    dateStamp: album.dateStamp,
+                                  });
+                                  setOpenAddPhoto(true);
+                                }}>
+                                <Icon
+                                  path={mdiCameraPlus}
+                                  title="Add Photo"
+                                  size={1}
+                                  horizontal
+                                  vertical
+                                  rotate={180}
+                                  color="white"
+                                />
+                              </Button>
                             </Grid>
                           </Grid>
                         </Grid>

@@ -1,12 +1,20 @@
 import React from "react";
 import uuidv4 from "uuid/v4";
 import { makeStyles } from "@material-ui/core/styles";
-import { Modal, Grid, TextField, Button } from "@material-ui/core";
+import {
+  Modal,
+  Grid,
+  Typography,
+  TextField,
+  Button,
+} from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
   DatePicker,
 } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
+import { mdiFilePlus } from "@mdi/js";
+import Icon from "@mdi/react";
 
 function getModalStyle() {
   const top = 50;
@@ -22,10 +30,15 @@ const useStyles = makeStyles(theme => ({
   paper: {
     position: "absolute",
     width: 400,
-    backgroundColor: "#333333",
+    backgroundColor: "#f0f0f0",
     border: "1px solid #333333",
     boxShadow: theme.shadows[3],
     padding: theme.spacing(2, 4, 3),
+    borderRadius: theme.spacing(1),
+    outline: "none",
+    "& focus": {
+      outline: "none",
+    },
   },
 }));
 
@@ -62,10 +75,18 @@ export default function AddAlbum(props) {
     <span>
       <Button
         variant="contained"
-        color="primary"
+        color="secondary"
         size="small"
         onClick={handleOpen}>
-        Add
+        <Icon
+          path={mdiFilePlus}
+          title="Edit"
+          size={1}
+          horizontal
+          vertical
+          rotate={180}
+          color="white"
+        />
       </Button>
       <Modal
         aria-labelledby="simple-modal-title"
@@ -76,9 +97,12 @@ export default function AddAlbum(props) {
           direction="column"
           style={modalStyle}
           className={classes.paper}
+          spacing={1}
           container>
           <Grid item>
-            <h2 id="simple-modal-title">Add New Album</h2>
+            <Typography variant="h3" component="h2">
+              Add New Album
+            </Typography>
           </Grid>
           <Grid item>
             <TextField

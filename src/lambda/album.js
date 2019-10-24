@@ -15,7 +15,6 @@ const albumSchema = new Schema({
 const Album = mongoose.model("album", albumSchema);
 
 // Connect to MongoDB
-// connect to MongoDB
 const dbUrl = process.env.MONGO,
   dbOptions = { useNewUrlParser: true, useFindAndModify: true };
 
