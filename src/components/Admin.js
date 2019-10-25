@@ -33,7 +33,6 @@ const Admin = props => {
     dateStamp: Math.floor(new Date().getTime() / 1000),
     description: "Describe your Album",
     slug: "album-title",
-    photos: [],
   });
   const [editAlbumObject, setEditAlbumObject] = useState({
     id: undefined,
@@ -42,7 +41,6 @@ const Admin = props => {
     dateStamp: undefined,
     description: undefined,
     slug: undefined,
-    photos: undefined,
   });
   const [openEdit, setOpenEdit] = React.useState(false);
   const [addPhotoObject, setAddPhotoObject] = useState({
@@ -54,6 +52,7 @@ const Admin = props => {
     description: "Photo Description",
     slug: "photo-slug",
     photoData: undefined,
+    tags: undefined,
   });
   const [openAddPhoto, setOpenAddPhoto] = React.useState(false);
 
@@ -143,16 +142,16 @@ const Admin = props => {
   // const photoPut = () => {
   //   console.log("put");
   // };
-  // const photoPost = photoData => {
-  // axios
-  //   .post(`/.netlify/functions/photo`, {
-  //     ...photoData,
-  //     token: props.token,
-  //   })
-  //   .then(photoPost => {
-  //     console.log(photoPost.data);
-  //   });
-  // };
+  const photoPost = photoData => {
+    axios
+      .post(`/.netlify/functions/photo`, {
+        ...photoData,
+        token: props.token,
+      })
+      .then(photoPost => {
+        console.log(photoPost.data);
+      });
+  };
   // const photoDelete = () => {
   //   console.log("delete");
   // };
@@ -201,6 +200,7 @@ const Admin = props => {
                     setOpenAddPhoto={setOpenAddPhoto}
                     addPhotoObject={addPhotoObject}
                     setAddPhotoObject={setAddPhotoObject}
+                    photoPost={photoPost}
                   />
                 </span>
               </Typography>
@@ -291,39 +291,39 @@ const Admin = props => {
                                 {`${album.description}`}
                               </Typography>
                             </Grid>
-                            <Grid item>
-                              <Button
-                                size="small"
-                                variant="contained"
-                                color="secondary"
-                                onClick={() => {
-                                  // const [addPhotoObject, setAddPhotoObject] = useState({
-                                  //   id: uuidv4(),
-                                  //   title: "Photo Title",
-                                  //   album: undefined,
-                                  //   dateStamp: Math.floor(new Date().getTime() / 1000),
-                                  //   description: "Photo Description",
-                                  //   slug: "photo-slug",
-                                  //   photoData: undefined,
-                                  // });
-                                  setAddPhotoObject({
-                                    ...addPhotoObject,
-                                    albumId: album.id,
-                                    albumTitle: album.title,
-                                    dateStamp: album.dateStamp,
-                                  });
-                                  setOpenAddPhoto(true);
-                                }}>
-                                <Icon
-                                  path={mdiCameraPlus}
-                                  title="Add Photo"
-                                  size={1}
-                                  horizontal
-                                  vertical
-                                  rotate={180}
-                                  color="white"
-                                />
-                              </Button>
+                            <Grid direction="row" container>
+                              <Grid item>
+                                <Typography
+                                  variant="body1"
+                                  component="span">
+                                  {`${album.length}`}
+                                </Typography>
+                              </Grid>
+                              <Grid item>
+                                <Button
+                                  size="small"
+                                  variant="contained"
+                                  color="secondary"
+                                  onClick={() => {
+                                    setAddPhotoObject({
+                                      ...addPhotoObject,
+                                      albumId: album.id,
+                                      albumTitle: album.title,
+                                      dateStamp: album.dateStamp,
+                                    });
+                                    setOpenAddPhoto(true);
+                                  }}>
+                                  <Icon
+                                    path={mdiCameraPlus}
+                                    title="Add Photo"
+                                    size={1}
+                                    horizontal
+                                    vertical
+                                    rotate={180}
+                                    color="white"
+                                  />
+                                </Button>
+                              </Grid>
                             </Grid>
                           </Grid>
                         </Grid>

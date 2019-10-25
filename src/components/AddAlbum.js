@@ -66,7 +66,6 @@ export default function AddAlbum(props) {
       dateStamp: Math.floor(new Date().getTime() / 1000),
       description: "Describe your Album",
       slug: "album-title",
-      photos: [],
     });
     handleClose();
   }

@@ -93,6 +93,12 @@ export default function AddPhoto(props) {
   }
 
   function handleSubmit(e) {
+    e.preventDefault();
+    props.photoPost({
+      ...props.addPhotoObject,
+      tags: props.addPhotoObject.tags.split(",").map(el => el.trim()),
+    });
+    // handleClose();
     // e.preventDefault();
     // props.albumPatch(props.editAlbumObject);
     // props.setEditAlbumObject({
@@ -136,8 +142,44 @@ export default function AddPhoto(props) {
               value={props.addPhotoObject.title}
               onChange={e =>
                 props.setAddPhotoObject({
-                  ...props.editAlbumObject,
+                  ...props.addPhotoObject,
                   title: e.target.value,
+                })
+              }
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              required
+              id="slug"
+              label="Slug"
+              margin="dense"
+              variant="outlined"
+              fullWidth={true}
+              value={props.addPhotoObject.slug}
+              placeholder={`/photo-slug`}
+              onChange={e =>
+                props.setAddPhotoObject({
+                  ...props.addPhotoObject,
+                  slug: e.target.value,
+                })
+              }
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              required
+              id="tags"
+              label="Tags (CSV)"
+              margin="dense"
+              variant="outlined"
+              placeholder="Tag 1, Tag 2"
+              fullWidth={true}
+              value={props.addPhotoObject.tags}
+              onChange={e =>
+                props.setAddPhotoObject({
+                  ...props.addPhotoObject,
+                  tags: e.target.value,
                 })
               }
             />
@@ -208,7 +250,7 @@ export default function AddPhoto(props) {
               fullWidth={true}
               value={props.addPhotoObject.description}
               onChange={e =>
-                props.setEditAlbumObject({
+                props.setAddPhotoObject({
                   ...props.addPhotoObject,
                   description: e.target.value,
                 })

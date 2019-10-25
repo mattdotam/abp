@@ -58,7 +58,6 @@ export default function EditAlbum(props) {
       dateStamp: undefined,
       description: undefined,
       slug: undefined,
-      photos: undefined,
     });
     props.setOpenEdit(false);
   };
@@ -73,7 +72,6 @@ export default function EditAlbum(props) {
       dateStamp: undefined,
       description: undefined,
       slug: undefined,
-      photos: undefined,
     });
     handleClose();
   }

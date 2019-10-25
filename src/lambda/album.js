@@ -10,7 +10,7 @@ const albumSchema = new Schema({
   dateStamp: Number,
   description: String,
   slug: String,
-  photos: [String],
+  length: Number,
 });
 const Album = mongoose.model("album", albumSchema);
 
@@ -50,11 +50,7 @@ exports.handler = async (event, context) => {
             return false;
           }
         });
-      // connect to MongoDB
-      // const dbUrl = process.env.MONGO,
-      //   dbOptions = { useNewUrlParser: true, useFindAndModify: true };
-      // mongoose.connect(dbUrl, dbOptions);
-      // Post Photo
+      // Post Album
       connectToDatabase();
       if (roleCheck === true) {
         try {
@@ -65,7 +61,7 @@ exports.handler = async (event, context) => {
             dateStamp: params.dateStamp,
             description: params.description,
             slug: params.slug,
-            photos: params.photos,
+            length: 0,
           });
           return {
             statusCode: 201,
@@ -85,12 +81,6 @@ exports.handler = async (event, context) => {
       }
     }
     case "GET": {
-      // const dbUrl = process.env.MONGO,
-      //   dbOptions = {
-      //     useNewUrlParser: true,
-      //     useFindAndModify: true,
-      //   };
-      // mongoose.connect(dbUrl, dbOptions);
       connectToDatabase();
       const query = event.queryStringParameters;
       const lookup = async q => {
@@ -104,8 +94,8 @@ exports.handler = async (event, context) => {
                 dateStamp: d.dateStamp,
                 createStamp: d.createStamp,
                 slug: d.slug,
-                photos: d.photos,
                 description: d.description,
+                length: d.length,
               })
             );
             return results;
@@ -119,7 +109,7 @@ exports.handler = async (event, context) => {
               title: data.title,
               dateStamp: data.dateStamp,
               slug: data.slug,
-              photos: data.photos,
+              length: data.length,
             };
           });
         }
@@ -163,7 +153,7 @@ exports.handler = async (event, context) => {
               dateStamp: params.dateStamp,
               description: params.description,
               slug: params.slug,
-              photos: params.photos,
+              length: params.length,
             }
           );
           return {
