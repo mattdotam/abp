@@ -12,6 +12,13 @@ const styles = theme => ({
     boxShadow: theme.shadows[3],
     minHeight: "128px",
   },
+  albumLink: {
+    color: "white",
+    textDecoration: "none",
+    "& hover": {
+      textDecoration: "underline",
+    },
+  },
 });
 
 export default styles;

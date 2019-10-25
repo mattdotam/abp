@@ -7,44 +7,7 @@ import React, {
 import { Grid } from "@material-ui/core";
 import Browser from "./Browser";
 import Single from "./Single";
-
-function getBrowserSettings(width, height) {
-  const direction = width >= height ? "row" : "column";
-  const stack =
-    direction === "column"
-      ? Math.floor(width / 600) + 1
-      : Math.floor(height / 400) + 1;
-
-  const overflowX = direction === "column" ? "hidden" : "visible";
-  const overflowY = direction === "row" ? "visible" : "hidden";
-
-  let stackHeight;
-  let stackWidth;
-
-  if (direction === "column") {
-    stackHeight = "auto";
-    stackWidth = width / stack;
-  } else {
-    stackWidth = "auto";
-    stackHeight = height / stack;
-  }
-
-  const imgWidth = direction === "column" ? stackWidth : "auto";
-  const imgHeight = direction === "row" ? stackHeight : "auto";
-
-  return {
-    direction,
-    overflowX,
-    overflowY,
-    imgWidth,
-    imgHeight,
-    stack: {
-      number: stack,
-      height: stackHeight,
-      width: stackWidth,
-    },
-  };
-}
+import getBrowserSettings from "../helpers/getBrowserSettings";
 
 const photosArr = [];
 for (let i = 0; i < 30; i++) {
@@ -69,6 +32,8 @@ const Home = () => {
     width: window.innerWidth,
     height: window.innerHeight,
   });
+
+  console.log(browseRef);
 
   const handleViewportSizeChange = () => {
     setSize({

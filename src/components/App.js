@@ -8,6 +8,7 @@ import Home from "./Home";
 import About from "./About";
 import Contact from "./Contact";
 import Admin from "./Admin";
+import ViewAlbum from "./ViewAlbum";
 
 // class LambdaDemo extends Component {
 //   constructor(props) {
@@ -149,6 +150,12 @@ class App extends Component {
                 />
               )}
             />
+            <Route
+              exact
+              path={["/:album", "/:album/"]}
+              render={renderProps => <ViewAlbum {...renderProps} />}
+            />
+            <Route path={["/:album/:photo", "/:album/:photo/"]} />
           </Switch>
         </Grid>
         <Grid item>

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Container,
   Paper,
@@ -266,11 +267,15 @@ const Admin = props => {
                               spacing={1}
                               container>
                               <Grid item>
-                                <Typography
-                                  variant="h4"
-                                  component="h3">
-                                  {`${album.title}`}
-                                </Typography>
+                                <Link
+                                  className={classes.albumLink}
+                                  to={`/${album.slug}`}>
+                                  <Typography
+                                    variant="h4"
+                                    component="h3">
+                                    {`${album.title}`}
+                                  </Typography>
+                                </Link>
                               </Grid>
                               <Grid item>
                                 <Typography
