@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import styles from "../styles/ViewAlbumStyles";
 import axios from "axios";
+import Display from "./Display";
 
 const ViewAlbum = props => {
   const { classes } = props;
@@ -71,15 +72,7 @@ const ViewAlbum = props => {
         </Container>
       ) : photosArr !== undefined ? (
         <Grid direction="column" container>
-          {photosArr.map(photo => {
-            return (
-              <img
-                key={`${photo.id}`}
-                src={`${photo.photoData}`}
-                alt={`${photo.title}`}
-              />
-            );
-          })}
+          <Display photosArr={photosArr} />
         </Grid>
       ) : (
         <Container maxWidth="lg">
