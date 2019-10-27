@@ -153,7 +153,12 @@ class App extends Component {
             <Route
               exact
               path={["/:album", "/:album/"]}
-              render={renderProps => <ViewAlbum {...renderProps} />}
+              render={renderProps => (
+                <ViewAlbum
+                  {...renderProps}
+                  token={this.state.token}
+                />
+              )}
             />
             <Route path={["/:album/:photo", "/:album/:photo/"]} />
           </Switch>

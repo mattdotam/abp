@@ -22,9 +22,16 @@ const styles = theme => ({
     alignContent: "flex-start",
   },
   photoItem: {
+    position: "relative",
     margin: 0,
     padding: 0,
     lineHeight: 0,
+  },
+  photoAdmin: {
+    position: "absolute",
+    top: "1rem",
+    right: "1rem",
+    width: "auto",
   },
 });
 

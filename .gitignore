@@ -12,8 +12,6 @@
 
 /.netlify
 
-/src/lambda/photo.js
-
 # misc
 .DS_Store
 .env.local

@@ -15,12 +15,7 @@ import { GoogleLogin } from "react-google-login";
 import axios from "axios";
 import uuidv4 from "uuid/v4";
 import Icon from "@mdi/react";
-import {
-  mdiFilePlus,
-  mdiPencil,
-  mdiTrashCan,
-  mdiCameraPlus,
-} from "@mdi/js";
+import { mdiPencil, mdiTrashCan, mdiCameraPlus } from "@mdi/js";
 import AddAlbum from "./AddAlbum";
 import EditAlbum from "./EditAlbum";
 import AddPhoto from "./AddPhoto";

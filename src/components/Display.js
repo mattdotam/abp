@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
-import { withStyles } from "@material-ui/core";
+import { Grid, Button, withStyles } from "@material-ui/core";
 import styles from "../styles/DisplayStyles";
+import Icon from "@mdi/react";
+import { mdiPencil, mdiTrashCan, mdiCameraPlus } from "@mdi/js";
+import red from "@material-ui/core/colors/red";
+import EditPhoto from "./EditPhoto";
+import axios from "axios";
 
 const calculateMargin = (currentIndex, splitNum, array) => {
   if (currentIndex < splitNum) {
@@ -13,60 +18,98 @@ const calculateMargin = (currentIndex, splitNum, array) => {
       splitArray.push(
         array.filter((val, idx) => idx % splitNum === i)
       );
-      splitArray[i].unshift(0);
     }
     const maxArray = splitArray[0].map(x => 0);
     for (let i = 0; i < maxArray.length; i++) {
       for (let j = 0; j < splitArray.length; j++) {
-        if (
-          splitArray[j]
-            .slice(0, i + 1)
-            .reduce((acc, cv) => acc + cv, 0) >= maxArray[i]
-        ) {
-          maxArray[i] = splitArray[j]
-            .slice(0, i + 1)
-            .reduce((acc, cv) => acc + cv, 0);
+        const totalWidth = splitArray[j]
+          .slice(0, i + 1)
+          .reduce((acc, cv) => acc + cv, 0);
+        if (totalWidth >= maxArray[i]) {
+          maxArray[i] = totalWidth;
         }
       }
     }
-    // const margin = splitArray[currentIndex % splitNum]
-    //   .map((a, i) => {
-    //     return a - maxArray[i];
-    //   })
-    //   .slice(0, Math.ceil((currentIndex + 1) / splitNum));
-    // return margin.reduce((acc, cv) => acc + cv, 0);
     return (
       splitArray[currentIndex % splitNum]
-        .slice(0, Math.ceil(currentIndex / splitNum))
+        .slice(0, Math.floor(currentIndex / splitNum))
         .reduce((acc, cv) => acc + cv, 0) -
-      maxArray[Math.floor(currentIndex / splitNum)]
+      maxArray[Math.floor(currentIndex / splitNum) - 1] -
+      1
     );
   }
 };
-
-// const calculateOrigin = (currentIndex, splitNum, array) => {
-//   const splitArray = [];
-//   for (let i = 0; i < splitNum; i++) {
-//     splitArray.push(array.filter((val, idx) => idx % splitNum === i));
-//     splitArray[i].unshift(0);
-//   }
-// };
 
 const Display = props => {
   const { classes } = props;
   const isPortrait = useMediaQuery({
     query: "(orientation: portrait)",
   });
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+  const handleViewportSizeChange = () => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+  useEffect(() => {
+    window.addEventListener("resize", handleViewportSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleViewportSizeChange);
+    };
+  }, []);
   const [heightArr, setHeightArr] = useState([]);
   const [widthArr, setWidthArr] = useState([]);
+
   const split = isPortrait
-    ? Math.ceil(window.innerWidth / 500)
-    : Math.ceil(window.innerHeight / 500);
+    ? Math.ceil(windowSize.width / 500)
+    : Math.ceil(windowSize.height / 500);
+
+  const [editPhotoObject, setEditPhotoObject] = useState({
+    id: undefined,
+    title: undefined,
+    albumId: undefined,
+    albumTitle: undefined,
+    dateStamp: undefined,
+    description: undefined,
+    slug: undefined,
+    photoData: undefined,
+    tags: undefined,
+  });
+  const [openEditPhoto, setOpenEditPhoto] = React.useState(false);
+
+  // Photo PATCH
+  const photoPatch = photoData => {
+    axios.patch(`/.netlify/functions/photo`, {
+      ...photoData,
+      token: props.token,
+    });
+    // .then(async photoPatch => {
+    //   await axios
+    //     .get(`/.netlify/functions/photo`)
+    //     .then(albumsList => {
+    //       setAlbums(albumsList.data);
+    //     });
+    // });
+  };
+
   return (
     <div
       className={`${classes.root} ${
         isPortrait ? classes.containerCol : classes.containerRow
       }`}>
+      <span>
+        <EditPhoto
+          openEditPhoto={openEditPhoto}
+          setOpenEditPhoto={setOpenEditPhoto}
+          editPhotoObject={editPhotoObject}
+          setEditPhotoObject={setEditPhotoObject}
+          photoPatch={photoPatch}
+        />
+      </span>
       {props.photosArr.map((photo, index) => {
         return (
           <div
@@ -107,6 +150,56 @@ const Display = props => {
               }}
               alt={photo.title}
             />
+            {props.token !== null && (
+              <Grid
+                className={classes.photoAdmin}
+                direction="row"
+                spacing={1}
+                container>
+                <Grid item>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => {
+                      setEditPhotoObject({
+                        ...photo,
+                        albumTitle: props.album.title,
+                      });
+                      setOpenEditPhoto(true);
+                    }}>
+                    <Icon
+                      path={mdiPencil}
+                      title="Edit Photo"
+                      size={1}
+                      horizontal
+                      vertical
+                      rotate={180}
+                      color="white"
+                    />
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button
+                    size="small"
+                    variant="contained"
+                    style={{
+                      backgroundColor: red[500],
+                    }}
+                    onClick={() => console.log("delete photo")}>
+                    <Icon
+                      path={mdiTrashCan}
+                      title="Delete Photo"
+                      size={1}
+                      horizontal
+                      vertical
+                      rotate={180}
+                      color="white"
+                    />
+                  </Button>
+                </Grid>
+              </Grid>
+            )}
           </div>
         );
       })}

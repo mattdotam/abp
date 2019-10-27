@@ -72,7 +72,11 @@ const ViewAlbum = props => {
         </Container>
       ) : photosArr !== undefined ? (
         <Grid direction="column" container>
-          <Display photosArr={photosArr} />
+          <Display
+            photosArr={photosArr}
+            token={props.token}
+            album={album}
+          />
         </Grid>
       ) : (
         <Container maxWidth="lg">
