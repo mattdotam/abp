@@ -229,10 +229,49 @@ exports.handler = async (event, context) => {
       }
     }
     case "DELETE": {
-      return {
-        statusCode: 200,
-        body: "DELETE",
-      };
+      // authenticate
+      const params = JSON.parse(event.body);
+      const roleCheck = await axios
+        .post(
+          `${process.env.SITE_ROOT}/.netlify/functions/tokenCheck`,
+          {
+            token: params.token,
+          }
+        )
+        .then(tokenCheck => {
+          if (tokenCheck.data === "admin") {
+            return true;
+          } else {
+            return false;
+          }
+        });
+      connectToDatabase();
+      // DELETE Album
+      if (roleCheck === true) {
+        try {
+          const deletePhoto = await Photo.findOneAndRemove({
+            id: params.id,
+          });
+          const inc = await Album.findOneAndUpdate(
+            { id: params.albumId },
+            { $inc: { length: -1 } }
+          );
+          return {
+            statusCode: 201,
+            body: JSON.stringify({ id: deletePhoto.id, inc: inc }),
+          };
+        } catch (err) {
+          return {
+            statusCode: 500,
+            body: JSON.stringify({ msg: err.message }),
+          };
+        }
+      } else {
+        return {
+          statusCode: 401,
+          body: "NEED LOGIN",
+        };
+      }
     }
     default: {
       return {

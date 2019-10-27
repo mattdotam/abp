@@ -189,12 +189,8 @@ exports.handler = async (event, context) => {
             return false;
           }
         });
-      // connect to MongoDB
-      // const dbUrl = process.env.MONGO,
-      //   dbOptions = { useNewUrlParser: true, useFindAndModify: true };
-      // mongoose.connect(dbUrl, dbOptions);
       connectToDatabase();
-      // DELETE Photo
+      // DELETE Album
       if (roleCheck === true) {
         try {
           const deleteAlbum = await Album.findOneAndRemove({

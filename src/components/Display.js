@@ -81,7 +81,6 @@ const Display = props => {
   });
   const [openEditPhoto, setOpenEditPhoto] = React.useState(false);
 
-  // Photo PATCH
   const photoPatch = photoData => {
     axios.patch(`/.netlify/functions/photo`, {
       ...photoData,
@@ -93,6 +92,18 @@ const Display = props => {
     //     .then(albumsList => {
     //       setAlbums(albumsList.data);
     //     });
+    // });
+  };
+
+  const photoDelete = photoData => {
+    axios.delete(`/.netlify/functions/photo`, {
+      data: {
+        ...photoData,
+        token: props.token,
+      },
+    });
+    // .then(albumDelete => {
+    //   getAlbums();
     // });
   };
 
@@ -186,7 +197,12 @@ const Display = props => {
                     style={{
                       backgroundColor: red[500],
                     }}
-                    onClick={() => console.log("delete photo")}>
+                    onClick={() =>
+                      photoDelete({
+                        id: photo.id,
+                        albumId: photo.albumId,
+                      })
+                    }>
                     <Icon
                       path={mdiTrashCan}
                       title="Delete Photo"
