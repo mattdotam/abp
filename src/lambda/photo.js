@@ -163,11 +163,45 @@ exports.handler = async (event, context) => {
                 }
               );
             }
-          }
-          if (q.id) {
+          } else if (q.id) {
             if (q.photoData === "true") {
               return await Photo.find({ id: q.id }).then(data => {
                 return data;
+              });
+            }
+          } else if (q.tag) {
+            if (q.photoData === "true") {
+              return await Photo.find({ tags: q.tag }).then(data => {
+                let results = [];
+                data.forEach(d =>
+                  results.push({
+                    id: d.id,
+                    title: d.title,
+                    albumId: d.albumId,
+                    dateStamp: d.dateStamp,
+                    description: d.description,
+                    slug: d.slug,
+                    tags: d.tags,
+                    photoData: d.photoData,
+                  })
+                );
+                return results;
+              });
+            } else {
+              return await Photo.find({ tags: q.tag }).then(data => {
+                let results = [];
+                data.forEach(d =>
+                  results.push({
+                    id: d.id,
+                    title: d.title,
+                    albumId: d.albumId,
+                    dateStamp: d.dateStamp,
+                    description: d.description,
+                    slug: d.slug,
+                    tags: d.tags,
+                  })
+                );
+                return results;
               });
             }
           }
