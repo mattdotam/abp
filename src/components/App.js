@@ -8,6 +8,7 @@ import Home from "./Home";
 import About from "./About";
 import Contact from "./Contact";
 import Admin from "./Admin";
+import ViewTag from "./ViewTag";
 import ViewAlbum from "./ViewAlbum";
 
 // class LambdaDemo extends Component {
@@ -148,6 +149,13 @@ class App extends Component {
                   clearToken={this.clearToken}
                   setAvatar={this.setAvatar}
                 />
+              )}
+            />
+            <Route
+              exact
+              path={["/tag/:tag", "/tag/:tag/"]}
+              render={renderProps => (
+                <ViewTag {...renderProps} token={this.state.token} />
               )}
             />
             <Route

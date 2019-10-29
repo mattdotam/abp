@@ -175,7 +175,9 @@ const Display = props => {
                     onClick={() => {
                       setEditPhotoObject({
                         ...photo,
-                        albumTitle: props.album.title,
+                        albumTitle: props.album
+                          ? props.album.title
+                          : photo.albumTitle,
                       });
                       setOpenEditPhoto(true);
                     }}>
