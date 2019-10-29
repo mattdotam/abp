@@ -48,6 +48,8 @@ export default function AddAlbum(props) {
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
 
+  // console.log(props.loading);
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -56,9 +58,10 @@ export default function AddAlbum(props) {
     setOpen(false);
   };
 
-  function handleSubmit(e) {
+  const handleSubmit = async e => {
     e.preventDefault();
-    props.albumPost(props.addAlbumObject);
+    props.setLoading(true);
+    await props.albumPost(props.addAlbumObject);
     props.setAddAlbumObject({
       id: uuidv4(),
       title: "Album Title",
@@ -66,8 +69,9 @@ export default function AddAlbum(props) {
       description: "Describe your Album",
       slug: "album-title",
     });
+    props.setLoading(false);
     handleClose();
-  }
+  };
 
   return (
     <span>
@@ -105,6 +109,7 @@ export default function AddAlbum(props) {
           <Grid item>
             <TextField
               required
+              disabled={props.loading}
               id="title"
               label="Title"
               margin="dense"
@@ -146,6 +151,7 @@ export default function AddAlbum(props) {
           <Grid item>
             <TextField
               required
+              disabled={props.loading}
               id="slug"
               label="Slug"
               margin="dense"
@@ -169,6 +175,7 @@ export default function AddAlbum(props) {
               margin="dense"
               variant="outlined"
               multiline={true}
+              disabled={props.loading}
               rows="2"
               rowsMax="4"
               fullWidth={true}
@@ -184,9 +191,14 @@ export default function AddAlbum(props) {
           <Grid item>
             <Button
               onClick={handleSubmit}
+              disabled={props.loading}
               variant="contained"
               color="primary">
-              Submit
+              {props.loading ? (
+                <CircularProgress color="primary" />
+              ) : (
+                `Submit`
+              )}
             </Button>
           </Grid>
         </Grid>

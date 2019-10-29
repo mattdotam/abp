@@ -124,6 +124,8 @@ const Display = props => {
           editPhotoObject={editPhotoObject}
           setEditPhotoObject={setEditPhotoObject}
           photoPatch={photoPatch}
+          loading={props.loading}
+          setLoading={props.setLoading}
         />
       </span>
       {props.photosArr.map((photo, index) => {

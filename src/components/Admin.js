@@ -85,19 +85,20 @@ const Admin = props => {
       .then(albumPost => {});
   };
   // Album POST
-  const albumPost = albumData => {
-    axios
+  const albumPost = async albumData => {
+    await axios
       .post(`/.netlify/functions/album`, {
         ...albumData,
         token: props.token,
       })
       .then(albumPost => {
         getAlbums();
+        return albumPost;
       });
   };
   // Album PATCH
-  const albumPatch = albumData => {
-    axios
+  const albumPatch = async albumData => {
+    await axios
       .patch(`/.netlify/functions/album`, {
         ...albumData,
         token: props.token,
@@ -111,8 +112,8 @@ const Admin = props => {
       });
   };
   // Album DELETE
-  const albumDelete = albumData => {
-    axios
+  const albumDelete = async albumData => {
+    await axios
       .delete(`/.netlify/functions/album`, {
         data: {
           ...albumData,
@@ -183,6 +184,8 @@ const Admin = props => {
                     addAlbumObject={addAlbumObject}
                     setAddAlbumObject={setAddAlbumObject}
                     albumPost={albumPost}
+                    loading={props.loading}
+                    setLoading={props.setLoading}
                   />
                   <EditAlbum
                     openEdit={openEdit}
@@ -190,6 +193,8 @@ const Admin = props => {
                     editAlbumObject={editAlbumObject}
                     setEditAlbumObject={setEditAlbumObject}
                     albumPatch={albumPatch}
+                    loading={props.loading}
+                    setLoading={props.setLoading}
                   />
                   <AddPhoto
                     openAddPhoto={openAddPhoto}
@@ -197,6 +202,8 @@ const Admin = props => {
                     addPhotoObject={addPhotoObject}
                     setAddPhotoObject={setAddPhotoObject}
                     photoPost={photoPost}
+                    loading={props.loading}
+                    setLoading={props.setLoading}
                   />
                 </span>
               </Typography>

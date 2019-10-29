@@ -125,6 +125,8 @@ class App extends Component {
                   clearRole={this.clearRole}
                   clearToken={this.clearToken}
                   setAvatar={this.setAvatar}
+                  loading={this.state.loading}
+                  setLoading={this.setLoading}
                 />
               )}
             />
