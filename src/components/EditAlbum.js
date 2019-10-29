@@ -66,6 +66,9 @@ export default function EditAlbum(props) {
   const handleSubmit = async e => {
     e.preventDefault();
     props.setLoading(true);
+    props.setSnackbarMsg(
+      `Edited Album '${props.editAlbumObject.title}'`
+    );
     await props.albumPatch(props.editAlbumObject);
     props.setEditAlbumObject({
       id: undefined,
@@ -75,6 +78,7 @@ export default function EditAlbum(props) {
       description: undefined,
       slug: undefined,
     });
+    props.setSnackbarShow(true);
     props.setLoading(false);
     handleClose();
   };
