@@ -48,7 +48,7 @@ const Admin = props => {
     description: "Photo Description",
     slug: "photo-slug",
     photoData: undefined,
-    tags: undefined,
+    tags: "",
   });
   const [openAddPhoto, setOpenAddPhoto] = React.useState(false);
 

@@ -67,6 +67,7 @@ export default function AddPhoto(props) {
       description: "Photo Description",
       slug: "photo-slug",
       photoData: undefined,
+      tags: "",
     });
     props.setOpenAddPhoto(false);
   };
@@ -168,7 +169,6 @@ export default function AddPhoto(props) {
           </Grid>
           <Grid item>
             <TextField
-              required
               id="tags"
               label="Tags (CSV)"
               margin="dense"

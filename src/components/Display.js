@@ -77,7 +77,7 @@ const Display = props => {
     description: undefined,
     slug: undefined,
     photoData: undefined,
-    tags: undefined,
+    tags: "",
   });
   const [openEditPhoto, setOpenEditPhoto] = React.useState(false);
 

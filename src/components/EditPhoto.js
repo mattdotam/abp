@@ -124,7 +124,6 @@ export default function EditPhoto(props) {
           </Grid>
           <Grid item>
             <TextField
-              required
               id="tags"
               label="Tags (CSV)"
               margin="dense"
