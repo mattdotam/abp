@@ -247,6 +247,7 @@ const Display = props => {
         isPortrait={isPortrait}
         windowSize={windowSize}
         setPhotosArr={props.setPhotosArr}
+        setAlbum={props.setAlbum}
       />
     </div>
   );

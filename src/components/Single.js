@@ -6,6 +6,7 @@ import styles from "../styles/SingleStyles";
 const Single = props => {
   const { classes } = props;
   const photo = props.singlePhoto;
+  console.log(props.setAlbum);
   return (
     <div
       className={classes.root}
@@ -49,6 +50,8 @@ const Single = props => {
                   props.setPhotosArr(undefined);
                   props.setSingle(false);
                   props.setSinglePhoto(undefined);
+                  props.setAlbum !== undefined &&
+                    props.setAlbum(undefined);
                 }}
                 to={`/${photo.albumSlug}/`}>{`${photo.albumTitle}`}</Link>
             </Typography>

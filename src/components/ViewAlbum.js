@@ -29,6 +29,7 @@ const ViewAlbum = props => {
     }
   };
   if (album === undefined) {
+    setAlbum("loading");
     getAlbum();
   }
   const getPhotos = async albumId => {
@@ -75,6 +76,7 @@ const ViewAlbum = props => {
           <Display
             photosArr={photosArr}
             setPhotosArr={setPhotosArr}
+            setAlbum={setAlbum}
             token={props.token}
             album={album}
           />
