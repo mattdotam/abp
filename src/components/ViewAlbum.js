@@ -5,6 +5,7 @@ import {
   Paper,
   Typography,
   withStyles,
+  CircularProgress,
 } from "@material-ui/core";
 import styles from "../styles/ViewAlbumStyles";
 import axios from "axios";
@@ -49,27 +50,11 @@ const ViewAlbum = props => {
     <div>
       {album === undefined ? (
         <Container maxWidth="lg">
-          <Paper
-            margin={0}
-            padding={0}
-            className={classes.viewAlbumPaper}
-            square>
-            <Typography variant="h1" component="h1">
-              {`Loading`}
-            </Typography>
-          </Paper>
+          <CircularProgress color="primary" />
         </Container>
       ) : album === null ? (
         <Container maxWidth="lg">
-          <Paper
-            margin={0}
-            padding={0}
-            className={classes.viewAlbumPaper}
-            square>
-            <Typography variant="h1" component="h1">
-              {`404 - Album Not Found`}
-            </Typography>
-          </Paper>
+          <CircularProgress color="primary" />
         </Container>
       ) : photosArr !== undefined ? (
         <Grid direction="column" container>
@@ -79,13 +64,13 @@ const ViewAlbum = props => {
             setAlbum={setAlbum}
             token={props.token}
             album={album}
+            loading={props.loading}
+            setLoading={props.setLoading}
           />
         </Grid>
       ) : (
         <Container maxWidth="lg">
-          <Typography variant="h1" component="h1">
-            {`Loading`}
-          </Typography>
+          <CircularProgress color="primary" />
         </Container>
       )}
     </div>

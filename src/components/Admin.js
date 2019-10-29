@@ -38,7 +38,7 @@ const Admin = props => {
     description: undefined,
     slug: undefined,
   });
-  const [openEdit, setOpenEdit] = React.useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [addPhotoObject, setAddPhotoObject] = useState({
     id: uuidv4(),
     title: "Photo Title",

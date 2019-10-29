@@ -7,6 +7,7 @@ import {
   Typography,
   TextField,
   Button,
+  CircularProgress,
 } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
@@ -44,10 +45,8 @@ const useStyles = makeStyles(theme => ({
 
 export default function AddAlbum(props) {
   const classes = useStyles();
-  // getModalStyle is not a pure function, we roll the style only on the first render
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-  // addAlbumObject, setAddAlbumObject
 
   const handleOpen = () => {
     setOpen(true);

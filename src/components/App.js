@@ -11,34 +11,6 @@ import Admin from "./Admin";
 import ViewTag from "./ViewTag";
 import ViewAlbum from "./ViewAlbum";
 
-// class LambdaDemo extends Component {
-//   constructor(props) {
-//     super(props)
-//     this.state = { loading: false, msg: null }
-//   }
-
-//   handleClick = api => e => {
-//     e.preventDefault()
-
-//     this.setState({ loading: true })
-//     fetch("/.netlify/functions/" + api)
-//       .then(response => response.json())
-//       .then(json => this.setState({ loading: false, msg: json.msg }))
-//   }
-
-//   render() {
-//     const { loading, msg } = this.state
-//     return (
-//       <p>
-//         <button onClick={this.handleClick("hello")}>{loading ? "Loading..." : "Call Lambda"}</button>
-//         <button onClick={this.handleClick("async-dadjoke")}>{loading ? "Loading..." : "Call Async Lambda"}</button>
-//         <br />
-//         <span>{msg}</span>
-//       </p>
-//     )
-//   }
-// }
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -46,6 +18,7 @@ class App extends Component {
       token: null,
       role: null,
       avatar: null,
+      loading: false,
     };
     this.getToken = this.getToken.bind(this);
     this.setToken = this.setToken.bind(this);
@@ -55,6 +28,7 @@ class App extends Component {
     this.clearRole = this.clearRole.bind(this);
     this.setAvatar = this.setAvatar.bind(this);
     this.clearAvatar = this.clearAvatar.bind(this);
+    this.setLoading = this.setLoading.bind(this);
   }
   componentDidMount() {
     this.getToken();
@@ -71,6 +45,9 @@ class App extends Component {
         }
       );
     }
+  }
+  setLoading(isLoading) {
+    this.setState({ loading: isLoading });
   }
   setToken(token) {
     this.setState({ token });
@@ -155,7 +132,12 @@ class App extends Component {
               exact
               path={["/tag/:tag", "/tag/:tag/"]}
               render={renderProps => (
-                <ViewTag {...renderProps} token={this.state.token} />
+                <ViewTag
+                  {...renderProps}
+                  token={this.state.token}
+                  loading={this.state.loading}
+                  setLoading={this.setLoading}
+                />
               )}
             />
             <Route
@@ -165,6 +147,8 @@ class App extends Component {
                 <ViewAlbum
                   {...renderProps}
                   token={this.state.token}
+                  loading={this.state.loading}
+                  setLoading={this.setLoading}
                 />
               )}
             />

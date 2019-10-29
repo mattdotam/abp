@@ -5,6 +5,7 @@ import {
   Paper,
   Typography,
   withStyles,
+  CircularProgress,
 } from "@material-ui/core";
 import styles from "../styles/ViewAlbumStyles";
 import axios from "axios";
@@ -30,6 +31,7 @@ const ViewTag = props => {
           newPhotoArr.push(photoObjectWithAlbumTitle);
           if (newPhotoArr.length === length) {
             setPhotosArr(newPhotoArr);
+            props.setLoading(false);
           }
         });
     } catch (err) {
@@ -38,6 +40,7 @@ const ViewTag = props => {
   }
   const getPhotosByTag = async () => {
     try {
+      props.setLoading(true);
       await axios
         .get(
           `/.netlify/functions/photo?tag=${params.tag}&photoData=true`
@@ -60,27 +63,11 @@ const ViewTag = props => {
     <div>
       {photosArr === undefined ? (
         <Container maxWidth="lg">
-          <Paper
-            margin={0}
-            padding={0}
-            className={classes.viewAlbumPaper}
-            square>
-            <Typography variant="h1" component="h1">
-              {`Loading`}
-            </Typography>
-          </Paper>
+          <CircularProgress color="primary" />
         </Container>
       ) : photosArr === "loading" ? (
         <Container maxWidth="lg">
-          <Paper
-            margin={0}
-            padding={0}
-            className={classes.viewAlbumPaper}
-            square>
-            <Typography variant="h1" component="h1">
-              {`Loading`}
-            </Typography>
-          </Paper>
+          <CircularProgress color="primary" />
         </Container>
       ) : photosArr.length === 0 ? (
         <Container maxWidth="lg">
@@ -100,13 +87,13 @@ const ViewTag = props => {
             photosArr={photosArr}
             token={props.token}
             setPhotosArr={setPhotosArr}
+            loading={props.loading}
+            setLoading={props.setLoading}
           />
         </Grid>
       ) : (
         <Container maxWidth="lg">
-          <Typography variant="h1" component="h1">
-            {`Loading`}
-          </Typography>
+          <CircularProgress color="primary" />
         </Container>
       )}
     </div>
