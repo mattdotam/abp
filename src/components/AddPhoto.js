@@ -7,6 +7,7 @@ import {
   Typography,
   TextField,
   Button,
+  CircularProgress,
 } from "@material-ui/core";
 import { DropzoneArea } from "material-ui-dropzone";
 import {
@@ -93,26 +94,15 @@ export default function AddPhoto(props) {
     });
   }
 
-  function handleSubmit(e) {
+  const handleSubmit = async e => {
     e.preventDefault();
-    props.photoPost({
+    props.setLoading(true);
+    await props.photoPost({
       ...props.addPhotoObject,
       tags: props.addPhotoObject.tags.split(",").map(el => el.trim()),
     });
-    // handleClose();
-    // e.preventDefault();
-    // props.albumPatch(props.editAlbumObject);
-    // props.setEditAlbumObject({
-    //   id: undefined,
-    //   title: undefined,
-    //   createStamp: undefined,
-    //   dateStamp: undefined,
-    //   description: undefined,
-    //   slug: undefined,
-    //   photos: undefined,
-    // });
-    // handleClose();
-  }
+    handleClose();
+  };
 
   return (
     <span>
@@ -135,6 +125,7 @@ export default function AddPhoto(props) {
           <Grid item>
             <TextField
               required
+              disabled={props.loading}
               id="title"
               label="Title"
               margin="dense"
@@ -152,6 +143,7 @@ export default function AddPhoto(props) {
           <Grid item>
             <TextField
               required
+              disabled={props.loading}
               id="slug"
               label="Slug"
               margin="dense"
@@ -170,6 +162,7 @@ export default function AddPhoto(props) {
           <Grid item>
             <TextField
               id="tags"
+              disabled={props.loading}
               label="Tags (CSV)"
               margin="dense"
               variant="outlined"
@@ -200,6 +193,7 @@ export default function AddPhoto(props) {
               <DatePicker
                 disableToolbar
                 required
+                disabled={props.loading}
                 variant="inline"
                 inputVariant="outlined"
                 format="DD/MM/YYYY"
@@ -219,28 +213,11 @@ export default function AddPhoto(props) {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          {/* <Grid item>
-            <TextField
-              required
-              id="slug"
-              label="Slug"
-              margin="dense"
-              variant="outlined"
-              fullWidth={true}
-              placeholder="./your-album-name"
-              value={props.editAlbumObject.slug}
-              onChange={e =>
-                props.setEditAlbumObject({
-                  ...props.editAlbumObject,
-                  slug: e.target.value,
-                })
-              }
-            />
-          </Grid> */}
           <Grid item>
             <TextField
               required
               id="description"
+              disabled={props.loading}
               label="Description"
               margin="dense"
               variant="outlined"
@@ -298,9 +275,14 @@ export default function AddPhoto(props) {
           <Grid item>
             <Button
               onClick={handleSubmit}
+              disabled={props.loading}
               variant="contained"
               color="primary">
-              Add Photo
+              {props.loading ? (
+                <CircularProgress color="primary" />
+              ) : (
+                `Save & Upload`
+              )}
             </Button>
           </Grid>
         </Grid>

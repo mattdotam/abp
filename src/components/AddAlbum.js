@@ -48,8 +48,6 @@ export default function AddAlbum(props) {
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
 
-  // console.log(props.loading);
-
   const handleOpen = () => {
     setOpen(true);
   };
@@ -129,6 +127,7 @@ export default function AddAlbum(props) {
               <DatePicker
                 disableToolbar
                 required
+                disabled={props.loading}
                 variant="inline"
                 inputVariant="outlined"
                 format="DD/MM/YYYY"
@@ -197,7 +196,7 @@ export default function AddAlbum(props) {
               {props.loading ? (
                 <CircularProgress color="primary" />
               ) : (
-                `Submit`
+                `Create`
               )}
             </Button>
           </Grid>

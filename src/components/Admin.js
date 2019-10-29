@@ -77,14 +77,12 @@ const Admin = props => {
     });
   }
   getAlbums();
-  // Album GET
   const albumGet = albumId => {
     axios
       // .get(`/.netlify/functions/album?id=${albumId}`)
       .get(`/.netlify/functions/album`)
       .then(albumPost => {});
   };
-  // Album POST
   const albumPost = async albumData => {
     await axios
       .post(`/.netlify/functions/album`, {
@@ -96,7 +94,6 @@ const Admin = props => {
         return albumPost;
       });
   };
-  // Album PATCH
   const albumPatch = async albumData => {
     await axios
       .patch(`/.netlify/functions/album`, {
@@ -111,7 +108,6 @@ const Admin = props => {
           });
       });
   };
-  // Album DELETE
   const albumDelete = async albumData => {
     await axios
       .delete(`/.netlify/functions/album`, {
@@ -124,34 +120,16 @@ const Admin = props => {
         getAlbums();
       });
   };
-
-  // const albumGet;
-  // const albumPatch;
-  // const albumDelete;
-  // const photoGet = photoId => {
-  //   console.log(photoId);
-  //   axios
-  //     .get(`/.netlify/functions/photo?id=${photoId}`)
-  //     .then(photoGet => {
-  //       console.log(photoGet.data);
-  //     });
-  // };
-  // const photoPut = () => {
-  //   console.log("put");
-  // };
-  const photoPost = photoData => {
-    axios
+  const photoPost = async photoData => {
+    await axios
       .post(`/.netlify/functions/photo`, {
         ...photoData,
         token: props.token,
       })
       .then(photoPost => {
-        console.log(photoPost.data);
+        getAlbums();
       });
   };
-  // const photoDelete = () => {
-  //   console.log("delete");
-  // };
   return (
     <Container maxWidth="lg">
       <Paper

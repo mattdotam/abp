@@ -7,6 +7,7 @@ import {
   Typography,
   TextField,
   Button,
+  CircularProgress,
 } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
@@ -62,9 +63,10 @@ export default function EditAlbum(props) {
     props.setOpenEdit(false);
   };
 
-  function handleSubmit(e) {
+  const handleSubmit = async e => {
     e.preventDefault();
-    props.albumPatch(props.editAlbumObject);
+    props.setLoading(true);
+    await props.albumPatch(props.editAlbumObject);
     props.setEditAlbumObject({
       id: undefined,
       title: undefined,
@@ -73,8 +75,9 @@ export default function EditAlbum(props) {
       description: undefined,
       slug: undefined,
     });
+    props.setLoading(false);
     handleClose();
-  }
+  };
 
   return (
     <span>
@@ -100,6 +103,7 @@ export default function EditAlbum(props) {
           <Grid item>
             <TextField
               required
+              disabled={props.loading}
               id="title"
               label="Title"
               margin="dense"
@@ -122,6 +126,7 @@ export default function EditAlbum(props) {
                 variant="inline"
                 inputVariant="outlined"
                 format="DD/MM/YYYY"
+                disabled={props.loading}
                 margin="dense"
                 id="date-taken"
                 label="Date Taken"
@@ -141,6 +146,7 @@ export default function EditAlbum(props) {
           <Grid item>
             <TextField
               required
+              disabled={props.loading}
               id="slug"
               label="Slug"
               margin="dense"
@@ -159,6 +165,7 @@ export default function EditAlbum(props) {
           <Grid item>
             <TextField
               required
+              disabled={props.loading}
               id="description"
               label="Description"
               margin="dense"
@@ -179,9 +186,14 @@ export default function EditAlbum(props) {
           <Grid item>
             <Button
               onClick={handleSubmit}
+              disabled={props.loading}
               variant="contained"
               color="primary">
-              Submit
+              {props.loading ? (
+                <CircularProgress color="primary" />
+              ) : (
+                `Update`
+              )}
             </Button>
           </Grid>
         </Grid>
