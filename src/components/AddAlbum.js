@@ -59,6 +59,9 @@ export default function AddAlbum(props) {
   const handleSubmit = async e => {
     e.preventDefault();
     props.setLoading(true);
+    props.setSnackbarMsg(
+      `Added Album '${props.addAlbumObject.title}'`
+    );
     await props.albumPost(props.addAlbumObject);
     props.setAddAlbumObject({
       id: uuidv4(),
@@ -67,6 +70,7 @@ export default function AddAlbum(props) {
       description: "Describe your Album",
       slug: "album-title",
     });
+    props.setSnackbarShow(true);
     props.setLoading(false);
     handleClose();
   };

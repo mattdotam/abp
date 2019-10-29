@@ -9,6 +9,7 @@ import {
   Button,
   withStyles,
   CircularProgress,
+  Snackbar,
 } from "@material-ui/core";
 import red from "@material-ui/core/colors/red";
 import styles from "../styles/AdminStyles";
@@ -52,6 +53,8 @@ const Admin = props => {
     tags: "",
   });
   const [openAddPhoto, setOpenAddPhoto] = React.useState(false);
+  const [snackbarShow, setSnackbarShow] = React.useState(false);
+  const [snackbarMsg, setSnackbarMsg] = React.useState("Snackbar");
 
   const responseGoogle = response => {
     props.setAvatar(response.profileObj.imageUrl);
@@ -137,6 +140,14 @@ const Admin = props => {
         getAlbums();
       });
   };
+  const handleSnackbarClose = (event, reason) => {
+    // if (reason === "clickaway") {
+    //   return;
+    // }
+    console.log("closing snackbar");
+    setSnackbarShow(false);
+  };
+
   return (
     <Container maxWidth="lg">
       <Paper
@@ -171,6 +182,8 @@ const Admin = props => {
                     albumPost={albumPost}
                     loading={props.loading}
                     setLoading={props.setLoading}
+                    setSnackbarShow={setSnackbarShow}
+                    setSnackbarMsg={setSnackbarMsg}
                   />
                   <EditAlbum
                     openEdit={openEdit}
@@ -180,6 +193,8 @@ const Admin = props => {
                     albumPatch={albumPatch}
                     loading={props.loading}
                     setLoading={props.setLoading}
+                    setSnackbarShow={setSnackbarShow}
+                    setSnackbarMsg={setSnackbarMsg}
                   />
                   <AddPhoto
                     openAddPhoto={openAddPhoto}
@@ -189,6 +204,23 @@ const Admin = props => {
                     photoPost={photoPost}
                     loading={props.loading}
                     setLoading={props.setLoading}
+                    setSnackbarShow={setSnackbarShow}
+                    setSnackbarMsg={setSnackbarMsg}
+                  />
+                  <Snackbar
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    open={snackbarShow}
+                    ContentProps={{
+                      "aria-describedby": "message-id",
+                    }}
+                    autoHideDuration={5000}
+                    onClose={handleSnackbarClose}
+                    message={
+                      <span id="message-id">{`${snackbarMsg}`}</span>
+                    }
                   />
                 </span>
               </Typography>
