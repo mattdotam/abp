@@ -97,10 +97,14 @@ export default function AddPhoto(props) {
   const handleSubmit = async e => {
     e.preventDefault();
     props.setLoading(true);
+    props.setSnackbarMsg(
+      `Added Photo '${props.addPhotoObject.title}'`
+    );
     await props.photoPost({
       ...props.addPhotoObject,
       tags: props.addPhotoObject.tags.split(",").map(el => el.trim()),
     });
+    props.setSnackbarShow(true);
     props.setLoading(false);
     handleClose();
   };
