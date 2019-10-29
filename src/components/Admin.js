@@ -141,10 +141,6 @@ const Admin = props => {
       });
   };
   const handleSnackbarClose = (event, reason) => {
-    // if (reason === "clickaway") {
-    //   return;
-    // }
-    console.log("closing snackbar");
     setSnackbarShow(false);
   };
 

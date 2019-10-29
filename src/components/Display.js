@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
-import { Grid, Button, withStyles } from "@material-ui/core";
+import {
+  Grid,
+  Button,
+  Snackbar,
+  withStyles,
+} from "@material-ui/core";
 import styles from "../styles/DisplayStyles";
 import Icon from "@mdi/react";
 import { mdiPencil, mdiTrashCan } from "@mdi/js";
@@ -86,6 +91,13 @@ const Display = props => {
   const [single, setSingle] = React.useState(false);
   const [singlePhoto, setSinglePhoto] = React.useState(undefined);
 
+  const [snackbarShow, setSnackbarShow] = React.useState(false);
+  const [snackbarMsg, setSnackbarMsg] = React.useState("Snackbar");
+
+  const handleSnackbarClose = (event, reason) => {
+    setSnackbarShow(false);
+  };
+
   const photoPatch = async photoData => {
     await axios.patch(`/.netlify/functions/photo`, {
       ...photoData,
@@ -126,6 +138,21 @@ const Display = props => {
           photoPatch={photoPatch}
           loading={props.loading}
           setLoading={props.setLoading}
+          setSnackbarShow={setSnackbarShow}
+          setSnackbarMsg={setSnackbarMsg}
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          open={snackbarShow}
+          ContentProps={{
+            "aria-describedby": "message-id",
+          }}
+          autoHideDuration={5000}
+          onClose={handleSnackbarClose}
+          message={<span id="message-id">{`${snackbarMsg}`}</span>}
         />
       </span>
       {props.photosArr.map((photo, index) => {

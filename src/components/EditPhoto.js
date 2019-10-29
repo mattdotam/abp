@@ -63,12 +63,16 @@ export default function EditPhoto(props) {
   const handleSubmit = async e => {
     e.preventDefault();
     props.setLoading(true);
+    props.setSnackbarMsg(
+      `Edited Photo '${props.editPhotoObject.title}'`
+    );
     await props.photoPatch({
       ...props.editPhotoObject,
       tags: props.editPhotoObject.tags
         .split(",")
         .map(el => el.trim()),
     });
+    props.setSnackbarShow(true);
     props.setLoading(false);
     handleClose();
   };
