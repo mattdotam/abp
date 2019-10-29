@@ -3,10 +3,11 @@ import { useMediaQuery } from "react-responsive";
 import { Grid, Button, withStyles } from "@material-ui/core";
 import styles from "../styles/DisplayStyles";
 import Icon from "@mdi/react";
-import { mdiPencil, mdiTrashCan, mdiCameraPlus } from "@mdi/js";
+import { mdiPencil, mdiTrashCan } from "@mdi/js";
 import red from "@material-ui/core/colors/red";
 import EditPhoto from "./EditPhoto";
 import axios from "axios";
+import Single from "./Single";
 
 const calculateMargin = (currentIndex, splitNum, array) => {
   if (currentIndex < splitNum) {
@@ -73,6 +74,7 @@ const Display = props => {
     title: undefined,
     albumId: undefined,
     albumTitle: undefined,
+    albumSlug: undefined,
     dateStamp: undefined,
     description: undefined,
     slug: undefined,
@@ -80,6 +82,9 @@ const Display = props => {
     tags: "",
   });
   const [openEditPhoto, setOpenEditPhoto] = React.useState(false);
+
+  const [single, setSingle] = React.useState(false);
+  const [singlePhoto, setSinglePhoto] = React.useState(undefined);
 
   const photoPatch = photoData => {
     axios.patch(`/.netlify/functions/photo`, {
@@ -154,10 +159,23 @@ const Display = props => {
                   (widthArr[index] = e.target.offsetWidth),
                 ]);
               }}
+              onClick={() => {
+                setSingle(true);
+                setSinglePhoto({
+                  ...photo,
+                  albumTitle: props.album
+                    ? props.album.title
+                    : photo.albumTitle,
+                  albumSlug: props.album
+                    ? props.album.slug
+                    : photo.albumSlug,
+                });
+              }}
               src={photo.photoData}
               style={{
                 maxHeight: "100%",
                 maxWidth: "100%",
+                cursor: "pointer",
               }}
               alt={photo.title}
             />
@@ -221,6 +239,14 @@ const Display = props => {
           </div>
         );
       })}
+      <Single
+        single={single}
+        setSingle={setSingle}
+        singlePhoto={singlePhoto}
+        setSinglePhoto={setSinglePhoto}
+        isPortrait={isPortrait}
+        windowSize={windowSize}
+      />
     </div>
   );
 };

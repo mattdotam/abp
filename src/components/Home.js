@@ -6,7 +6,6 @@ import React, {
 } from "react";
 import { Grid } from "@material-ui/core";
 import Browser from "./Browser";
-import Single from "./Single";
 import getBrowserSettings from "../helpers/getBrowserSettings";
 
 const photosArr = [];
@@ -78,12 +77,6 @@ const Home = () => {
           browseRef={browseRef}
           browseWidth={browseWidth}
           browseHeight={browseHeight}
-        />
-        <Single
-          handleClick={handleClick}
-          browseWidth={browseWidth}
-          browseHeight={browseHeight}
-          single={single}
         />
       </Grid>
     </Grid>

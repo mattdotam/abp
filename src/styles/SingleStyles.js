@@ -1,30 +1,16 @@
 const styles = theme => ({
   root: {
     position: "fixed",
-    top: "96px",
-    height: "calc(100% - 96px)",
-    maxHeight: "calc(100% - 144px)",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#333333",
   },
-  frame: {
-    position: "absolute",
-    maxHeight: "100%",
-    maxWidth: "100%",
-  },
-  single: {
-    position: "fixed",
-    left: "50%",
-    transform: "translateX(-50%)",
-    width: "auto",
-    height: "auto",
-    "& img": {
-      cursor: "pointer",
-      maxWidth: "100vw",
-      maxHeight: "calc(100vh - 226px)",
-    },
-  },
-  caption: {
+  captionText: {
     color: "white",
-    padding: "0rem 1rem",
+  },
+  captionLink: {
+    color: "#ff8500",
+    textDecoration: "none",
   },
 });
 

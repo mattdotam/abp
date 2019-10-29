@@ -25,6 +25,7 @@ const ViewTag = props => {
           const photoObjectWithAlbumTitle = {
             ...photoObject,
             albumTitle: response.data.title,
+            albumSlug: response.data.slug,
           };
           newPhotoArr.push(photoObjectWithAlbumTitle);
           if (newPhotoArr.length === length) {

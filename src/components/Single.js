@@ -1,49 +1,71 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Grid, Typography, withStyles } from "@material-ui/core";
 import styles from "../styles/SingleStyles";
 
 const Single = props => {
-  const {
-    classes,
-    handleClick,
-    single,
-    browseWidth,
-    browseHeight,
-  } = props;
+  const { classes } = props;
+  const photo = props.singlePhoto;
   return (
-    <Grid
+    <div
       className={classes.root}
       style={{
-        height: `${browseHeight}`,
-        width: `${browseWidth}`,
-        visibility: `${single === undefined ? "hidden" : "visible"}`,
+        display: `${props.single ? "initial" : "none"}`,
       }}
-      container>
-      <Grid className={classes.frame} item>
-        {single !== undefined && (
-          <Grid
-            direction="column"
-            className={classes.single}
-            container>
-            <Grid item>
-              <img
-                src={`${single.url}`}
-                alt={`${single.title}`}
-                onClick={e => handleClick(undefined)}
-              />
-            </Grid>
-            <Grid item>
+      onClick={() => {
+        props.setSingle(false);
+        props.setSinglePhoto(undefined);
+      }}>
+      <Grid
+        direction={`${props.isPortrait ? "column" : "row"}`}
+        container>
+        <Grid item>
+          {photo ? (
+            <img src={photo.photoData} alt={photo.title} />
+          ) : null}
+        </Grid>
+        {photo ? (
+          <Grid item>
+            <Typography
+              variant="body1"
+              component="p"
+              className={
+                classes.captionText
+              }>{`Title: ${photo.title}`}</Typography>
+            <Typography
+              variant="body1"
+              component="p"
+              className={
+                classes.captionText
+              }>{`Description: ${photo.description}`}</Typography>
+            <Typography
+              variant="body1"
+              component="p"
+              className={classes.captionText}>
+              Album:{" "}
+              <Link
+                className={classes.captionLink}
+                to={`/${photo.albumSlug}/`}>{`${photo.albumTitle}`}</Link>
+            </Typography>
+            {photo.tags ? (
               <Typography
                 variant="body1"
                 component="p"
-                className={
-                  classes.caption
-                }>{`${single.title}`}</Typography>
-            </Grid>
+                className={classes.captionText}>
+                Tags:{" "}
+                {photo.tags.map(tag => {
+                  return (
+                    <Link
+                      className={classes.captionLink}
+                      to={`/tag/${tag}/`}>{`${tag}`}</Link>
+                  );
+                })}
+              </Typography>
+            ) : null}
           </Grid>
-        )}
+        ) : null}
       </Grid>
-    </Grid>
+    </div>
   );
 };
 
