@@ -119,6 +119,7 @@ const Admin = props => {
       });
   };
   const albumDelete = async albumData => {
+    setSnackbarMsg(`Deleted Album '${albumData.title}'`);
     await axios
       .delete(`/.netlify/functions/album`, {
         data: {
@@ -127,6 +128,7 @@ const Admin = props => {
         },
       })
       .then(albumDelete => {
+        setSnackbarShow(true);
         getAlbums();
       });
   };
@@ -264,7 +266,10 @@ const Admin = props => {
                                       backgroundColor: red[500],
                                     }}
                                     onClick={() =>
-                                      albumDelete({ id: album.id })
+                                      albumDelete({
+                                        id: album.id,
+                                        title: album.title,
+                                      })
                                     }>
                                     <Icon
                                       path={mdiTrashCan}
