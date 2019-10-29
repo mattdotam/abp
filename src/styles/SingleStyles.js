@@ -3,7 +3,7 @@ const styles = theme => ({
     position: "fixed",
     width: "100%",
     height: "100%",
-    backgroundColor: "#333333",
+    backgroundColor: "#222222",
   },
   captionText: {
     color: "white",

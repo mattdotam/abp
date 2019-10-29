@@ -53,6 +53,7 @@ const ViewTag = props => {
   };
   if (photosArr === undefined) {
     setPhotosArr("loading");
+    newPhotoArr.length = 0;
     getPhotosByTag();
   }
   return (
@@ -95,7 +96,11 @@ const ViewTag = props => {
         </Container>
       ) : photosArr !== undefined ? (
         <Grid direction="column" container>
-          <Display photosArr={photosArr} token={props.token} />
+          <Display
+            photosArr={photosArr}
+            token={props.token}
+            setPhotosArr={setPhotosArr}
+          />
         </Grid>
       ) : (
         <Container maxWidth="lg">

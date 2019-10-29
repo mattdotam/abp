@@ -45,6 +45,11 @@ const Single = props => {
               Album:{" "}
               <Link
                 className={classes.captionLink}
+                onClick={() => {
+                  props.setPhotosArr(undefined);
+                  props.setSingle(false);
+                  props.setSinglePhoto(undefined);
+                }}
                 to={`/${photo.albumSlug}/`}>{`${photo.albumTitle}`}</Link>
             </Typography>
             {photo.tags ? (
@@ -57,6 +62,11 @@ const Single = props => {
                   return (
                     <Link
                       className={classes.captionLink}
+                      onClick={() => {
+                        props.setPhotosArr(undefined);
+                        props.setSingle(false);
+                        props.setSinglePhoto(undefined);
+                      }}
                       to={`/tag/${tag}/`}>{`${tag}`}</Link>
                   );
                 })}

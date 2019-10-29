@@ -74,6 +74,7 @@ const ViewAlbum = props => {
         <Grid direction="column" container>
           <Display
             photosArr={photosArr}
+            setPhotosArr={setPhotosArr}
             token={props.token}
             album={album}
           />
