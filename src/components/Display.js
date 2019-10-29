@@ -86,8 +86,8 @@ const Display = props => {
   const [single, setSingle] = React.useState(false);
   const [singlePhoto, setSinglePhoto] = React.useState(undefined);
 
-  const photoPatch = photoData => {
-    axios.patch(`/.netlify/functions/photo`, {
+  const photoPatch = async photoData => {
+    await axios.patch(`/.netlify/functions/photo`, {
       ...photoData,
       token: props.token,
     });

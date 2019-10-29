@@ -101,6 +101,7 @@ export default function AddPhoto(props) {
       ...props.addPhotoObject,
       tags: props.addPhotoObject.tags.split(",").map(el => el.trim()),
     });
+    props.setLoading(false);
     handleClose();
   };
 

@@ -6,6 +6,7 @@ import {
   Typography,
   TextField,
   Button,
+  CircularProgress,
 } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
@@ -59,15 +60,18 @@ export default function EditPhoto(props) {
     props.setOpenEditPhoto(false);
   };
 
-  function handleSubmit(e) {
+  const handleSubmit = async e => {
     e.preventDefault();
-    props.photoPatch({
+    props.setLoading(true);
+    await props.photoPatch({
       ...props.editPhotoObject,
       tags: props.editPhotoObject.tags
         .split(",")
         .map(el => el.trim()),
     });
-  }
+    props.setLoading(false);
+    handleClose();
+  };
 
   return (
     <span>
@@ -90,6 +94,7 @@ export default function EditPhoto(props) {
           <Grid item>
             <TextField
               required
+              disabled={props.loading}
               id="title"
               label="Title"
               margin="dense"
@@ -107,6 +112,7 @@ export default function EditPhoto(props) {
           <Grid item>
             <TextField
               required
+              disabled={props.loading}
               id="slug"
               label="Slug"
               margin="dense"
@@ -125,6 +131,7 @@ export default function EditPhoto(props) {
           <Grid item>
             <TextField
               id="tags"
+              disabled={props.loading}
               label="Tags (CSV)"
               margin="dense"
               variant="outlined"
@@ -154,6 +161,7 @@ export default function EditPhoto(props) {
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <DatePicker
                 disableToolbar
+                disabled={props.loading}
                 required
                 variant="inline"
                 inputVariant="outlined"
@@ -177,6 +185,7 @@ export default function EditPhoto(props) {
           <Grid item>
             <TextField
               required
+              disabled={props.loading}
               id="description"
               label="Description"
               margin="dense"
@@ -194,50 +203,17 @@ export default function EditPhoto(props) {
               }
             />
           </Grid>
-          {/* {props.addPhotoObject.photoData === undefined ? (
-            <Grid item>
-              <DropzoneArea
-                acceptedFiles={["image/*"]}
-                filesLimit={1}
-                showPreviews={false}
-                showPreviewsInDropzone={false}
-                showAlerts={false}
-                onChange={file => handleFileAdd(file)}
-              />
-            </Grid>
-          ) : (
-            <Grid style={{ position: "relative" }} item>
-              <img
-                className={classes.previewImg}
-                src={`${props.addPhotoObject.photoData}`}
-                alt="Upload Preview"
-              />
-              <Button
-                className={classes.removeButton}
-                size="small"
-                variant="contained"
-                style={{
-                  backgroundColor: red[500],
-                }}
-                onClick={() => handleFileRemove()}>
-                <Icon
-                  path={mdiTrashCan}
-                  title="Remove Photo"
-                  size={1}
-                  horizontal
-                  vertical
-                  rotate={180}
-                  color="white"
-                />
-              </Button>
-            </Grid>
-          )} */}
           <Grid item>
             <Button
               onClick={handleSubmit}
+              disabled={props.loading}
               variant="contained"
               color="primary">
-              Edit Photo
+              {props.loading ? (
+                <CircularProgress color="primary" />
+              ) : (
+                `Update`
+              )}
             </Button>
           </Grid>
         </Grid>
