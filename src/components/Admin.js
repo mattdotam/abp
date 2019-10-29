@@ -8,6 +8,7 @@ import {
   Card,
   Button,
   withStyles,
+  CircularProgress,
 } from "@material-ui/core";
 import red from "@material-ui/core/colors/red";
 import styles from "../styles/AdminStyles";
@@ -22,7 +23,7 @@ import AddPhoto from "./AddPhoto";
 
 const Admin = props => {
   const { classes } = props;
-  const [albums, setAlbums] = useState([]);
+  const [albums, setAlbums] = useState(undefined);
   const [addAlbumObject, setAddAlbumObject] = useState({
     id: uuidv4(),
     title: "Album Title",
@@ -71,18 +72,24 @@ const Admin = props => {
   };
   async function getAlbums() {
     await axios.get(`/.netlify/functions/album`).then(albumsList => {
-      if (albums.length !== albumsList.data.length) {
+      if (
+        albums === undefined ||
+        albums.length !== albumsList.data.length
+      ) {
         setAlbums(albumsList.data);
       }
     });
   }
-  getAlbums();
-  const albumGet = albumId => {
-    axios
-      // .get(`/.netlify/functions/album?id=${albumId}`)
-      .get(`/.netlify/functions/album`)
-      .then(albumPost => {});
-  };
+  if (albums === undefined) {
+    setAlbums([]);
+    getAlbums();
+  }
+  // const albumGet = albumId => {
+  //   axios
+  //     // .get(`/.netlify/functions/album?id=${albumId}`)
+  //     .get(`/.netlify/functions/album`)
+  //     .then(albumPost => {});
+  // };
   const albumPost = async albumData => {
     await axios
       .post(`/.netlify/functions/album`, {
@@ -188,134 +195,138 @@ const Admin = props => {
             </Grid>
             <Grid item>
               <Grid direction="row" container>
-                {albums.map(album => {
-                  return (
-                    <Grid xs={12} sm={6} md={3} item>
-                      <Card className={classes.albumCard} square>
-                        <Grid direction="column" container>
-                          <Grid item>
-                            <Grid
-                              direction="row"
-                              spacing={1}
-                              container>
-                              <Grid item>
-                                <Button
-                                  size="small"
-                                  variant="contained"
-                                  color="primary"
-                                  onClick={() => {
-                                    setEditAlbumObject(album);
-                                    setOpenEdit(true);
-                                  }}>
-                                  <Icon
-                                    path={mdiPencil}
-                                    title="Edit Album"
-                                    size={1}
-                                    horizontal
-                                    vertical
-                                    rotate={180}
-                                    color="white"
-                                  />
-                                </Button>
-                              </Grid>
-                              <Grid item>
-                                <Button
-                                  size="small"
-                                  variant="contained"
-                                  style={{
-                                    backgroundColor: red[500],
-                                  }}
-                                  onClick={() =>
-                                    albumDelete({ id: album.id })
-                                  }>
-                                  <Icon
-                                    path={mdiTrashCan}
-                                    title="Delete Album"
-                                    size={1}
-                                    horizontal
-                                    vertical
-                                    rotate={180}
-                                    color="white"
-                                  />
-                                </Button>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                          <Grid item>
-                            <Grid
-                              direction="row"
-                              spacing={1}
-                              container>
-                              <Grid item>
-                                <Link
-                                  className={classes.albumLink}
-                                  to={`/${album.slug}`}>
-                                  <Typography
-                                    variant="h4"
-                                    component="h3">
-                                    {`${album.title}`}
-                                  </Typography>
-                                </Link>
-                              </Grid>
-                              <Grid item>
-                                <Typography
-                                  variant="body1"
-                                  component="span">
-                                  {`${
-                                    new Date(album.dateStamp * 1000)
-                                      .toLocaleString()
-                                      .split(",")[0]
-                                  }`}
-                                </Typography>
+                {albums === [] ? (
+                  <CircularProgress color="primary" />
+                ) : (
+                  albums.map(album => {
+                    return (
+                      <Grid xs={12} sm={6} md={3} item>
+                        <Card className={classes.albumCard} square>
+                          <Grid direction="column" container>
+                            <Grid item>
+                              <Grid
+                                direction="row"
+                                spacing={1}
+                                container>
+                                <Grid item>
+                                  <Button
+                                    size="small"
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => {
+                                      setEditAlbumObject(album);
+                                      setOpenEdit(true);
+                                    }}>
+                                    <Icon
+                                      path={mdiPencil}
+                                      title="Edit Album"
+                                      size={1}
+                                      horizontal
+                                      vertical
+                                      rotate={180}
+                                      color="white"
+                                    />
+                                  </Button>
+                                </Grid>
+                                <Grid item>
+                                  <Button
+                                    size="small"
+                                    variant="contained"
+                                    style={{
+                                      backgroundColor: red[500],
+                                    }}
+                                    onClick={() =>
+                                      albumDelete({ id: album.id })
+                                    }>
+                                    <Icon
+                                      path={mdiTrashCan}
+                                      title="Delete Album"
+                                      size={1}
+                                      horizontal
+                                      vertical
+                                      rotate={180}
+                                      color="white"
+                                    />
+                                  </Button>
+                                </Grid>
                               </Grid>
                             </Grid>
                             <Grid item>
-                              <Typography
-                                variant="body1"
-                                component="span">
-                                {`${album.description}`}
-                              </Typography>
-                            </Grid>
-                            <Grid direction="row" container>
+                              <Grid
+                                direction="row"
+                                spacing={1}
+                                container>
+                                <Grid item>
+                                  <Link
+                                    className={classes.albumLink}
+                                    to={`/${album.slug}`}>
+                                    <Typography
+                                      variant="h4"
+                                      component="h3">
+                                      {`${album.title}`}
+                                    </Typography>
+                                  </Link>
+                                </Grid>
+                                <Grid item>
+                                  <Typography
+                                    variant="body1"
+                                    component="span">
+                                    {`${
+                                      new Date(album.dateStamp * 1000)
+                                        .toLocaleString()
+                                        .split(",")[0]
+                                    }`}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
                               <Grid item>
                                 <Typography
                                   variant="body1"
                                   component="span">
-                                  {`${album.length}`}
+                                  {`${album.description}`}
                                 </Typography>
                               </Grid>
-                              <Grid item>
-                                <Button
-                                  size="small"
-                                  variant="contained"
-                                  color="secondary"
-                                  onClick={() => {
-                                    setAddPhotoObject({
-                                      ...addPhotoObject,
-                                      albumId: album.id,
-                                      albumTitle: album.title,
-                                      dateStamp: album.dateStamp,
-                                    });
-                                    setOpenAddPhoto(true);
-                                  }}>
-                                  <Icon
-                                    path={mdiCameraPlus}
-                                    title="Add Photo"
-                                    size={1}
-                                    horizontal
-                                    vertical
-                                    rotate={180}
-                                    color="white"
-                                  />
-                                </Button>
+                              <Grid direction="row" container>
+                                <Grid item>
+                                  <Typography
+                                    variant="body1"
+                                    component="span">
+                                    {`${album.length}`}
+                                  </Typography>
+                                </Grid>
+                                <Grid item>
+                                  <Button
+                                    size="small"
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() => {
+                                      setAddPhotoObject({
+                                        ...addPhotoObject,
+                                        albumId: album.id,
+                                        albumTitle: album.title,
+                                        dateStamp: album.dateStamp,
+                                      });
+                                      setOpenAddPhoto(true);
+                                    }}>
+                                    <Icon
+                                      path={mdiCameraPlus}
+                                      title="Add Photo"
+                                      size={1}
+                                      horizontal
+                                      vertical
+                                      rotate={180}
+                                      color="white"
+                                    />
+                                  </Button>
+                                </Grid>
                               </Grid>
                             </Grid>
                           </Grid>
-                        </Grid>
-                      </Card>
-                    </Grid>
-                  );
-                })}
+                        </Card>
+                      </Grid>
+                    );
+                  })
+                )}
               </Grid>
             </Grid>
           </Grid>
