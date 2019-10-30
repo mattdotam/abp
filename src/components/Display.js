@@ -126,6 +126,10 @@ const Display = props => {
         },
       })
       .then(photoDelete => {
+        let filterPhotosArr = props.photosArr.filter(
+          (el, index) => index !== photoData.index
+        );
+        props.setPhotosArr(filterPhotosArr);
         setSnackbarShow(true);
       });
   };
