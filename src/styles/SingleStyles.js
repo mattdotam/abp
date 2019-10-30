@@ -5,6 +5,13 @@ const styles = theme => ({
     height: "100%",
     backgroundColor: "#222222",
   },
+  singlePaper: {
+    backgroundColor: "#333333",
+    color: "white",
+    marginTop: theme.spacing(1),
+    padding: theme.spacing(2),
+    borderRadius: theme.spacing(2),
+  },
   captionText: {
     color: "white",
   },
