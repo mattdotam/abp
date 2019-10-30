@@ -50,11 +50,29 @@ const ViewAlbum = props => {
     <div>
       {album === undefined ? (
         <Container maxWidth="lg">
-          <CircularProgress color="primary" />
+          <CircularProgress
+            style={{
+              width: "5rem",
+              height: "5rem",
+              position: "absolute",
+              top: "45%",
+              left: "45%",
+            }}
+            color="primary"
+          />
         </Container>
       ) : album === null ? (
         <Container maxWidth="lg">
-          <CircularProgress color="primary" />
+          <CircularProgress
+            style={{
+              width: "5rem",
+              height: "5rem",
+              position: "absolute",
+              top: "45%",
+              left: "45%",
+            }}
+            color="primary"
+          />
         </Container>
       ) : photosArr !== undefined ? (
         <Grid direction="column" container>
@@ -70,7 +88,16 @@ const ViewAlbum = props => {
         </Grid>
       ) : (
         <Container maxWidth="lg">
-          <CircularProgress color="primary" />
+          <CircularProgress
+            style={{
+              width: "5rem",
+              height: "5rem",
+              position: "absolute",
+              top: "45%",
+              left: "45%",
+            }}
+            color="primary"
+          />
         </Container>
       )}
     </div>

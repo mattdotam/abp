@@ -63,11 +63,29 @@ const ViewTag = props => {
     <div>
       {photosArr === undefined ? (
         <Container maxWidth="lg">
-          <CircularProgress color="primary" />
+          <CircularProgress
+            style={{
+              width: "5rem",
+              height: "5rem",
+              position: "absolute",
+              top: "45%",
+              left: "45%",
+            }}
+            color="primary"
+          />
         </Container>
       ) : photosArr === "loading" ? (
         <Container maxWidth="lg">
-          <CircularProgress color="primary" />
+          <CircularProgress
+            style={{
+              width: "5rem",
+              height: "5rem",
+              position: "absolute",
+              top: "45%",
+              left: "45%",
+            }}
+            color="primary"
+          />
         </Container>
       ) : photosArr.length === 0 ? (
         <Container maxWidth="lg">
@@ -93,7 +111,16 @@ const ViewTag = props => {
         </Grid>
       ) : (
         <Container maxWidth="lg">
-          <CircularProgress color="primary" />
+          <CircularProgress
+            style={{
+              width: "5rem",
+              height: "5rem",
+              position: "absolute",
+              top: "45%",
+              left: "45%",
+            }}
+            color="primary"
+          />
         </Container>
       )}
     </div>

@@ -107,13 +107,6 @@ const Display = props => {
       ...photoData,
       token: props.token,
     });
-    // .then(async photoPatch => {
-    //   await axios
-    //     .get(`/.netlify/functions/photo`)
-    //     .then(albumsList => {
-    //       setAlbums(albumsList.data);
-    //     });
-    // });
   };
 
   const photoDelete = async photoData => {
