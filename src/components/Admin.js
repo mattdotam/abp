@@ -17,7 +17,12 @@ import { GoogleLogin } from "react-google-login";
 import axios from "axios";
 import uuidv4 from "uuid/v4";
 import Icon from "@mdi/react";
-import { mdiPencil, mdiTrashCan, mdiCameraPlus } from "@mdi/js";
+import {
+  mdiPencil,
+  mdiTrashCan,
+  mdiCameraPlus,
+  mdiPolaroid,
+} from "@mdi/js";
 import AddAlbum from "./AddAlbum";
 import EditAlbum from "./EditAlbum";
 import AddPhoto from "./AddPhoto";
@@ -144,7 +149,7 @@ const Admin = props => {
     <Container maxWidth="lg">
       <Paper
         margin={0}
-        padding={0}
+        padding={2}
         className={classes.adminPaper}
         square>
         {props.token === null &&
@@ -165,7 +170,14 @@ const Admin = props => {
         {props.token !== null && (
           <Grid spacing={1} direction="column">
             <Grid item>
-              <Typography variant="h2" component="h2">
+              <Typography
+                style={{
+                  paddingTop: "1rem",
+                  paddingLeft: "0.75rem",
+                  paddingBottom: "0.5rem",
+                }}
+                variant="h2"
+                component="h2">
                 Albums{" "}
                 <span>
                   <AddAlbum
@@ -230,7 +242,9 @@ const Admin = props => {
                             <Grid item>
                               <Grid
                                 direction="row"
+                                justify="flex-end"
                                 spacing={1}
+                                className={classes.albumTopButtonRow}
                                 container>
                                 <Grid item>
                                   <Button
@@ -281,9 +295,14 @@ const Admin = props => {
                             <Grid item>
                               <Grid
                                 direction="row"
+                                style={{
+                                  display: "inline",
+                                }}
                                 spacing={1}
                                 container>
-                                <Grid item>
+                                <Grid
+                                  style={{ display: "inline-flex" }}
+                                  item>
                                   <Link
                                     className={classes.albumLink}
                                     to={`/${album.slug}`}>
@@ -294,9 +313,16 @@ const Admin = props => {
                                     </Typography>
                                   </Link>
                                 </Grid>
-                                <Grid item>
+                                <Grid
+                                  style={{ display: "inline-flex" }}
+                                  item>
                                   <Typography
                                     variant="body1"
+                                    style={{
+                                      verticalAlign: "text-bottom",
+                                      fontSize: "0.75rem",
+                                    }}
+                                    className={classes.albumDate}
                                     component="span">
                                     {`${
                                       new Date(album.dateStamp * 1000)
@@ -306,20 +332,60 @@ const Admin = props => {
                                   </Typography>
                                 </Grid>
                               </Grid>
-                              <Grid item>
+                              <Grid
+                                style={{ marginBottom: "0.5rem" }}
+                                item>
                                 <Typography
                                   variant="body1"
+                                  style={{
+                                    color: "rgba(255,255,255,0.75)",
+                                  }}
                                   component="span">
                                   {`${album.description}`}
                                 </Typography>
                               </Grid>
-                              <Grid direction="row" container>
+                              <Grid
+                                direction="row"
+                                spacing={1}
+                                className={
+                                  classes.albumBottomButtonRow
+                                }
+                                alignItems="center"
+                                alignContent="center"
+                                justify="space-between"
+                                container>
                                 <Grid item>
-                                  <Typography
-                                    variant="body1"
-                                    component="span">
-                                    {`${album.length}`}
-                                  </Typography>
+                                  <Grid
+                                    alignItems="center"
+                                    alignContent="center"
+                                    direction="row"
+                                    container>
+                                    <Grid item>
+                                      <Icon
+                                        path={mdiPolaroid}
+                                        title={`${album.length} Photos in Album`}
+                                        style={{
+                                          marginTop: "0.25rem",
+                                        }}
+                                        size={1.25}
+                                        horizontal
+                                        vertical
+                                        rotate={180}
+                                        color="white"
+                                      />
+                                    </Grid>
+                                    <Grid item>
+                                      <Typography
+                                        variant="body1"
+                                        style={{
+                                          color: "white",
+                                          marginLeft: "0.125rem",
+                                        }}
+                                        component="span">
+                                        {`${album.length}`}
+                                      </Typography>
+                                    </Grid>
+                                  </Grid>
                                 </Grid>
                                 <Grid item>
                                   <Button
