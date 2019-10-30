@@ -1,6 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Grid, Typography, withStyles } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Chip,
+  withStyles,
+} from "@material-ui/core";
 import styles from "../styles/SingleStyles";
 
 const Single = props => {
@@ -18,6 +23,7 @@ const Single = props => {
       }}>
       <Grid
         direction={`${props.isPortrait ? "column" : "row"}`}
+        spacing={1}
         container>
         <Grid item>
           {photo ? (
@@ -60,7 +66,7 @@ const Single = props => {
                 component="p"
                 className={classes.captionText}>
                 Tags:{" "}
-                {photo.tags.map(tag => {
+                {photo.tags.map((tag, tagIndex) => {
                   return (
                     <Link
                       className={classes.captionLink}
@@ -69,7 +75,18 @@ const Single = props => {
                         props.setSingle(false);
                         props.setSinglePhoto(undefined);
                       }}
-                      to={`/tag/${tag}/`}>{`${tag}`}</Link>
+                      to={`/tag/${tag}/`}>
+                      <Chip
+                        color="primary"
+                        style={{
+                          color: "white",
+                          cursor: "pointer",
+                          marginRight: "0.5rem",
+                        }}
+                        key={`chip-${tagIndex}`}
+                        label={`${tag}`}
+                      />
+                    </Link>
                   );
                 })}
               </Typography>

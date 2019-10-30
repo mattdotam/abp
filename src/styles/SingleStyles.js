@@ -9,7 +9,7 @@ const styles = theme => ({
     color: "white",
   },
   captionLink: {
-    color: "#ff8500",
+    color: "#ff8500 !important",
     textDecoration: "none",
   },
 });
