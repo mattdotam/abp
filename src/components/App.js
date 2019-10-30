@@ -102,7 +102,17 @@ class App extends Component {
         </Grid>
         <Grid item>
           <Switch>
-            <Route exact path="/" render={() => <Home />} />
+            <Route
+              exact
+              path="/"
+              render={() => (
+                <Home
+                  token={this.state.token}
+                  loading={this.state.loading}
+                  setLoading={this.setLoading}
+                />
+              )}
+            />
             <Route
               exact
               path={["/about", "/about/"]}

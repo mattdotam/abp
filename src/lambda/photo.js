@@ -103,9 +103,9 @@ exports.handler = async (event, context) => {
     case "GET": {
       connectToDatabase();
       const query = event.queryStringParameters;
+      console.log(query);
       const lookup = async q => {
         if (Object.entries(q).length === 0) {
-          // TODO: Return 20 photos marked for the homepage
           // return await Album.find({}).then(data => {
           //   let results = [];
           //   data.forEach(d =>
@@ -203,6 +203,37 @@ exports.handler = async (event, context) => {
                 );
                 return results;
               });
+            }
+          } else if (q.sort) {
+            switch (q.sort) {
+              case "latest": {
+                if (q.photoData === "true") {
+                  // Return array of all photos in an album, with image data
+                  return await Photo.find({})
+                    .sort("-createStamp")
+                    .skip(Number(q.index))
+                    .limit(Number(q.batch))
+                    .then(data => {
+                      let results = [];
+                      data.forEach(d =>
+                        results.push({
+                          id: d.id,
+                          title: d.title,
+                          albumId: d.albumId,
+                          dateStamp: d.dateStamp,
+                          description: d.description,
+                          slug: d.slug,
+                          tags: d.tags,
+                          photoData: d.photoData,
+                        })
+                      );
+                      return results;
+                    });
+                }
+              }
+              default: {
+                break;
+              }
             }
           }
         }
