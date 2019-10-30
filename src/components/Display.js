@@ -88,6 +88,10 @@ const Display = props => {
   });
   const [openEditPhoto, setOpenEditPhoto] = React.useState(false);
 
+  const [editPhotoIndex, setEditPhotoIndex] = React.useState(
+    undefined
+  );
+
   const [single, setSingle] = React.useState(false);
   const [singlePhoto, setSinglePhoto] = React.useState(undefined);
 
@@ -112,16 +116,18 @@ const Display = props => {
     // });
   };
 
-  const photoDelete = photoData => {
-    axios.delete(`/.netlify/functions/photo`, {
-      data: {
-        ...photoData,
-        token: props.token,
-      },
-    });
-    // .then(albumDelete => {
-    //   getAlbums();
-    // });
+  const photoDelete = async photoData => {
+    setSnackbarMsg(`Deleted Photo '${photoData.title}'`);
+    await axios
+      .delete(`/.netlify/functions/photo`, {
+        data: {
+          ...photoData,
+          token: props.token,
+        },
+      })
+      .then(photoDelete => {
+        setSnackbarShow(true);
+      });
   };
 
   return (
@@ -131,10 +137,14 @@ const Display = props => {
       }`}>
       <span>
         <EditPhoto
+          photosArr={props.photosArr}
+          setPhotosArr={props.setPhotosArr}
           openEditPhoto={openEditPhoto}
           setOpenEditPhoto={setOpenEditPhoto}
           editPhotoObject={editPhotoObject}
           setEditPhotoObject={setEditPhotoObject}
+          editPhotoIndex={editPhotoIndex}
+          setEditPhotoIndex={setEditPhotoIndex}
           photoPatch={photoPatch}
           loading={props.loading}
           setLoading={props.setLoading}
@@ -220,6 +230,7 @@ const Display = props => {
                     variant="contained"
                     color="primary"
                     onClick={() => {
+                      setEditPhotoIndex(index);
                       setEditPhotoObject({
                         ...photo,
                         albumTitle: props.album
@@ -249,6 +260,8 @@ const Display = props => {
                     onClick={() =>
                       photoDelete({
                         id: photo.id,
+                        title: photo.title,
+                        index: index,
                         albumId: photo.albumId,
                       })
                     }>

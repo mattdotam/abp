@@ -58,10 +58,12 @@ export default function EditPhoto(props) {
       tags: undefined,
     });
     props.setOpenEditPhoto(false);
+    props.setEditPhotoIndex(false);
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
+    console.log(props.editPhotoIndex);
     props.setLoading(true);
     props.setSnackbarMsg(
       `Edited Photo '${props.editPhotoObject.title}'`
@@ -69,14 +71,23 @@ export default function EditPhoto(props) {
     await props.photoPatch({
       ...props.editPhotoObject,
       tags: props.editPhotoObject.tags
+        .toString()
         .split(",")
         .map(el => el.trim()),
     });
+    let newPhotosArr = props.photosArr;
+    newPhotosArr[props.editPhotoIndex] = {
+      ...props.editPhotoObject,
+      tags: props.editPhotoObject.tags
+        .toString()
+        .split(",")
+        .map(el => el.trim()),
+    };
+    props.setPhotosArr(newPhotosArr);
     props.setSnackbarShow(true);
     props.setLoading(false);
     handleClose();
   };
-
   return (
     <span>
       <Modal

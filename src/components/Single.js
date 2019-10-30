@@ -6,7 +6,6 @@ import styles from "../styles/SingleStyles";
 const Single = props => {
   const { classes } = props;
   const photo = props.singlePhoto;
-  console.log(props.setAlbum);
   return (
     <div
       className={classes.root}
