@@ -87,12 +87,6 @@ const Admin = props => {
     setAlbums([]);
     getAlbums();
   }
-  // const albumGet = albumId => {
-  //   axios
-  //     // .get(`/.netlify/functions/album?id=${albumId}`)
-  //     .get(`/.netlify/functions/album`)
-  //     .then(albumPost => {});
-  // };
   const albumPost = async albumData => {
     await axios
       .post(`/.netlify/functions/album`, {

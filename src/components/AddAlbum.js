@@ -84,7 +84,7 @@ export default function AddAlbum(props) {
         onClick={handleOpen}>
         <Icon
           path={mdiFilePlus}
-          title="Edit"
+          title="Add Album"
           size={1}
           horizontal
           vertical
