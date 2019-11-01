@@ -35,7 +35,7 @@ const ViewLatest = props => {
             ) {
               setPhotosArr(newPhotoArr);
               props.setLoading(false);
-              if (length === 10) {
+              if (length === 6) {
                 getPhotosByCreate(newPhotoArr.length);
               }
             }
@@ -50,7 +50,7 @@ const ViewLatest = props => {
       props.setLoading(true);
       await axios
         .get(
-          `/.netlify/functions/photo?sort=latest&batch=10&index=${fromIndex}&photoData=true`
+          `/.netlify/functions/photo?sort=latest&batch=6&index=${fromIndex}&photoData=true`
         )
         .then(response => {
           response.data.forEach((photo, index) => {
