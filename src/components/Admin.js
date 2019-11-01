@@ -231,7 +231,7 @@ const Admin = props => {
             </Grid>
             <Grid item>
               <Grid direction="row" container>
-                {albums === [] ? (
+                {albums === [] || albums === undefined ? (
                   <CircularProgress color="primary" />
                 ) : (
                   albums.map(album => {
