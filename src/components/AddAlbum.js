@@ -41,6 +41,10 @@ const useStyles = makeStyles(theme => ({
       outline: "none",
     },
   },
+  fullWidth: {
+    minWidth: "100%",
+    width: "100%",
+  },
 }));
 
 export default function AddAlbum(props) {
@@ -103,12 +107,12 @@ export default function AddAlbum(props) {
           className={classes.paper}
           spacing={1}
           container>
-          <Grid item>
+          <Grid xs={12} item>
             <Typography variant="h3" component="h2">
               Add New Album
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               required
               disabled={props.loading}
@@ -116,7 +120,7 @@ export default function AddAlbum(props) {
               label="Title"
               margin="dense"
               variant="outlined"
-              fullWidth={true}
+              className={classes.fullWidth}
               value={props.addAlbumObject.title}
               onChange={e =>
                 props.setAddAlbumObject({
@@ -126,7 +130,7 @@ export default function AddAlbum(props) {
               }
             />
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <DatePicker
                 disableToolbar
@@ -138,6 +142,7 @@ export default function AddAlbum(props) {
                 margin="dense"
                 id="date-taken"
                 label="Date Taken"
+                className={classes.fullWidth}
                 value={props.addAlbumObject.dateStamp * 1000}
                 onChange={date =>
                   props.setAddAlbumObject({
@@ -151,7 +156,7 @@ export default function AddAlbum(props) {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               required
               disabled={props.loading}
@@ -159,7 +164,7 @@ export default function AddAlbum(props) {
               label="Slug"
               margin="dense"
               variant="outlined"
-              fullWidth={true}
+              className={classes.fullWidth}
               placeholder="./your-album-name"
               value={props.addAlbumObject.slug}
               onChange={e =>
@@ -170,7 +175,7 @@ export default function AddAlbum(props) {
               }
             />
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               required
               id="description"
@@ -181,7 +186,7 @@ export default function AddAlbum(props) {
               disabled={props.loading}
               rows="2"
               rowsMax="4"
-              fullWidth={true}
+              className={classes.fullWidth}
               value={props.addAlbumObject.description}
               onChange={e =>
                 props.setAddAlbumObject({
