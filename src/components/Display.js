@@ -92,8 +92,12 @@ const Display = props => {
     undefined
   );
 
-  const [single, setSingle] = React.useState(false);
-  const [singlePhoto, setSinglePhoto] = React.useState(undefined);
+  const [single, setSingle] = React.useState(
+    props.viewSingle || false
+  );
+  const [singlePhoto, setSinglePhoto] = React.useState(
+    props.singlePhoto || undefined
+  );
 
   const [snackbarShow, setSnackbarShow] = React.useState(false);
   const [snackbarMsg, setSnackbarMsg] = React.useState("Snackbar");
@@ -287,6 +291,7 @@ const Display = props => {
         windowSize={windowSize}
         setPhotosArr={props.setPhotosArr}
         setAlbum={props.setAlbum}
+        viewSingle={props.viewSingle}
       />
     </div>
   );

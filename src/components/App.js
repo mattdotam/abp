@@ -10,6 +10,7 @@ import Contact from "./Contact";
 import Admin from "./Admin";
 import ViewTag from "./ViewTag";
 import ViewAlbum from "./ViewAlbum";
+import ViewSingle from "./ViewSingle";
 
 class App extends Component {
   constructor(props) {
@@ -164,7 +165,17 @@ class App extends Component {
                 />
               )}
             />
-            <Route path={["/:album/:photo", "/:album/:photo/"]} />
+            <Route
+              path={["/:album/:photo", "/:album/:photo/"]}
+              render={renderProps => (
+                <ViewSingle
+                  {...renderProps}
+                  token={this.state.token}
+                  loading={this.state.loading}
+                  setLoading={this.setLoading}
+                />
+              )}
+            />
           </Switch>
         </Grid>
         <Grid item>

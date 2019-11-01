@@ -103,7 +103,6 @@ exports.handler = async (event, context) => {
     case "GET": {
       connectToDatabase();
       const query = event.queryStringParameters;
-      console.log(query);
       const lookup = async q => {
         if (Object.entries(q).length === 0) {
           // return await Album.find({}).then(data => {
@@ -125,23 +124,23 @@ exports.handler = async (event, context) => {
           if (q.albumId) {
             if (q.photoData === "false") {
               // Return array of all photos in an album, no images
-              return await Photo.find({ albumId: q.albumId }).then(
-                data => {
-                  let results = [];
-                  data.forEach(d =>
-                    results.push({
-                      id: d.id,
-                      title: d.title,
-                      albumId: d.albumId,
-                      dateStamp: d.dateStamp,
-                      description: d.description,
-                      slug: d.slug,
-                      tags: d.tags,
-                    })
-                  );
-                  return results;
-                }
-              );
+              return await Photo.find({
+                $or: [{ id: q.id }, { slug: q.id }],
+              }).then(data => {
+                let results = [];
+                data.forEach(d =>
+                  results.push({
+                    id: d.id,
+                    title: d.title,
+                    albumId: d.albumId,
+                    dateStamp: d.dateStamp,
+                    description: d.description,
+                    slug: d.slug,
+                    tags: d.tags,
+                  })
+                );
+                return results;
+              });
             } else {
               // Return array of all photos in an album, with image data
               return await Photo.find({ albumId: q.albumId }).then(
@@ -165,7 +164,9 @@ exports.handler = async (event, context) => {
             }
           } else if (q.id) {
             if (q.photoData === "true") {
-              return await Photo.find({ id: q.id }).then(data => {
+              return await Photo.find({
+                $or: [{ id: q.id }, { slug: q.id }],
+              }).then(data => {
                 return data;
               });
             }

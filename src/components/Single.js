@@ -19,8 +19,10 @@ const Single = props => {
         display: `${props.single ? "initial" : "none"}`,
       }}
       onClick={() => {
-        props.setSingle(false);
-        props.setSinglePhoto(undefined);
+        if (props.viewSingle !== true) {
+          props.setSingle(false);
+          props.setSinglePhoto(undefined);
+        }
       }}>
       <Grid
         direction={`${props.isPortrait ? "column" : "row"}`}
@@ -57,11 +59,13 @@ const Single = props => {
                 <Link
                   className={classes.captionLink}
                   onClick={() => {
-                    props.setPhotosArr(undefined);
-                    props.setSingle(false);
-                    props.setSinglePhoto(undefined);
-                    props.setAlbum !== undefined &&
-                      props.setAlbum(undefined);
+                    if (props.viewSingle !== true) {
+                      props.setPhotosArr(undefined);
+                      props.setSingle(false);
+                      props.setSinglePhoto(undefined);
+                      props.setAlbum !== undefined &&
+                        props.setAlbum(undefined);
+                    }
                   }}
                   to={`/${photo.albumSlug}/`}>{`${photo.albumTitle}`}</Link>
               </Typography>
@@ -76,9 +80,13 @@ const Single = props => {
                       <Link
                         className={classes.captionLink}
                         onClick={() => {
-                          props.setPhotosArr(undefined);
-                          props.setSingle(false);
-                          props.setSinglePhoto(undefined);
+                          if (props.viewSingle !== true) {
+                            props.setPhotosArr(undefined);
+                            props.setSingle(false);
+                            props.setSinglePhoto(undefined);
+                            props.setAlbum !== undefined &&
+                              props.setAlbum(undefined);
+                          }
                         }}
                         to={`/tag/${tag}/`}>
                         <Chip
