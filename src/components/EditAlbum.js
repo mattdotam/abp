@@ -39,6 +39,10 @@ const useStyles = makeStyles(theme => ({
       outline: "none",
     },
   },
+  fullWidth: {
+    minWidth: "100%",
+    width: "100%",
+  },
 }));
 
 export default function EditAlbum(props) {
@@ -96,7 +100,7 @@ export default function EditAlbum(props) {
           className={classes.paper}
           spacing={1}
           container>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <Typography
               id="simple-modal-title"
               variant="h3"
@@ -104,7 +108,7 @@ export default function EditAlbum(props) {
               {`Edit: ${props.editAlbumObject.title}`}
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               required
               disabled={props.loading}
@@ -112,7 +116,7 @@ export default function EditAlbum(props) {
               label="Title"
               margin="dense"
               variant="outlined"
-              fullWidth={true}
+              className={classes.fullWidth}
               value={props.editAlbumObject.title}
               onChange={e =>
                 props.setEditAlbumObject({
@@ -122,7 +126,7 @@ export default function EditAlbum(props) {
               }
             />
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <DatePicker
                 disableToolbar
@@ -134,6 +138,7 @@ export default function EditAlbum(props) {
                 margin="dense"
                 id="date-taken"
                 label="Date Taken"
+                className={classes.fullWidth}
                 value={props.editAlbumObject.dateStamp * 1000}
                 onChange={date =>
                   props.setEditAlbumObject({
@@ -147,7 +152,7 @@ export default function EditAlbum(props) {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               required
               disabled={props.loading}
@@ -155,8 +160,8 @@ export default function EditAlbum(props) {
               label="Slug"
               margin="dense"
               variant="outlined"
-              fullWidth={true}
               placeholder="./your-album-name"
+              className={classes.fullWidth}
               value={props.editAlbumObject.slug}
               onChange={e =>
                 props.setEditAlbumObject({
@@ -166,7 +171,7 @@ export default function EditAlbum(props) {
               }
             />
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               required
               disabled={props.loading}
@@ -177,7 +182,7 @@ export default function EditAlbum(props) {
               multiline={true}
               rows="2"
               rowsMax="4"
-              fullWidth={true}
+              className={classes.fullWidth}
               value={props.editAlbumObject.description}
               onChange={e =>
                 props.setEditAlbumObject({

@@ -35,6 +35,17 @@ const theme = createMuiTheme({
         marginBottom: "64px",
       },
     },
+    // MuiInputBase: {
+    //   root: {
+    //     minWidth: "100%",
+    //   },
+    //   input: {
+    //     minWidth: "100%",
+    //     "& focus": {
+    //       minWidth: "100%",
+    //     },
+    //   },
+    // },
     MuiTypography: {
       h1: {
         fontSize: "2.225rem",
