@@ -38,6 +38,10 @@ const useStyles = makeStyles(theme => ({
       outline: "none",
     },
   },
+  fullWidth: {
+    minWidth: "100%",
+    width: "100%",
+  },
 }));
 
 export default function EditPhoto(props) {
@@ -101,12 +105,12 @@ export default function EditPhoto(props) {
           className={classes.paper}
           spacing={1}
           container>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <Typography variant="h3" component="h2">
               {`Edit Photo: ${photo.title}`}
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               required
               disabled={props.loading}
@@ -124,7 +128,7 @@ export default function EditPhoto(props) {
               }
             />
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               required
               disabled={props.loading}
@@ -143,7 +147,7 @@ export default function EditPhoto(props) {
               }
             />
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               id="tags"
               disabled={props.loading}
@@ -161,7 +165,7 @@ export default function EditPhoto(props) {
               }
             />
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               disabled
               id="albumTitle"
@@ -172,7 +176,7 @@ export default function EditPhoto(props) {
               value={photo.albumTitle}
             />
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <DatePicker
                 disableToolbar
@@ -184,6 +188,7 @@ export default function EditPhoto(props) {
                 margin="dense"
                 id="date-taken"
                 label="Date Taken"
+                className={classes.fullWidth}
                 value={photo.dateStamp * 1000}
                 onChange={date =>
                   props.setEditPhotoObject({
@@ -197,7 +202,7 @@ export default function EditPhoto(props) {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               required
               disabled={props.loading}
