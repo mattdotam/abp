@@ -293,124 +293,128 @@ const Admin = props => {
                               </Grid>
                             </Grid>
                             <Grid item>
-                              <Grid
-                                direction="row"
-                                style={{
-                                  display: "inline",
-                                }}
-                                spacing={1}
-                                container>
+                              <Grid container direction="column">
                                 <Grid
-                                  style={{ display: "inline-flex" }}
-                                  item>
-                                  <Link
-                                    className={classes.albumLink}
-                                    to={`/${album.slug}`}>
+                                  direction="row"
+                                  style={{
+                                    display: "inline",
+                                  }}
+                                  spacing={1}
+                                  container>
+                                  <Grid
+                                    style={{ display: "inline-flex" }}
+                                    item>
+                                    <Link
+                                      className={classes.albumLink}
+                                      to={`/${album.slug}`}>
+                                      <Typography
+                                        variant="h4"
+                                        component="h3">
+                                        {`${album.title}`}
+                                      </Typography>
+                                    </Link>
+                                  </Grid>
+                                  <Grid
+                                    style={{ display: "inline-flex" }}
+                                    item>
                                     <Typography
-                                      variant="h4"
-                                      component="h3">
-                                      {`${album.title}`}
+                                      variant="body1"
+                                      style={{
+                                        verticalAlign: "text-bottom",
+                                        fontSize: "0.75rem",
+                                      }}
+                                      className={classes.albumDate}
+                                      component="span">
+                                      {`${
+                                        new Date(
+                                          album.dateStamp * 1000
+                                        )
+                                          .toLocaleString()
+                                          .split(",")[0]
+                                      }`}
                                     </Typography>
-                                  </Link>
+                                  </Grid>
                                 </Grid>
                                 <Grid
-                                  style={{ display: "inline-flex" }}
+                                  style={{ marginBottom: "0.5rem" }}
                                   item>
                                   <Typography
                                     variant="body1"
                                     style={{
-                                      verticalAlign: "text-bottom",
-                                      fontSize: "0.75rem",
+                                      color: "rgba(255,255,255,0.75)",
                                     }}
-                                    className={classes.albumDate}
                                     component="span">
-                                    {`${
-                                      new Date(album.dateStamp * 1000)
-                                        .toLocaleString()
-                                        .split(",")[0]
-                                    }`}
+                                    {`${album.description}`}
                                   </Typography>
                                 </Grid>
-                              </Grid>
-                              <Grid
-                                style={{ marginBottom: "0.5rem" }}
-                                item>
-                                <Typography
-                                  variant="body1"
-                                  style={{
-                                    color: "rgba(255,255,255,0.75)",
-                                  }}
-                                  component="span">
-                                  {`${album.description}`}
-                                </Typography>
-                              </Grid>
-                              <Grid
-                                direction="row"
-                                spacing={1}
-                                className={
-                                  classes.albumBottomButtonRow
-                                }
-                                alignItems="center"
-                                alignContent="center"
-                                justify="space-between"
-                                container>
-                                <Grid item>
-                                  <Grid
-                                    alignItems="center"
-                                    alignContent="center"
-                                    direction="row"
-                                    container>
-                                    <Grid item>
+                                <Grid
+                                  direction="row"
+                                  spacing={1}
+                                  className={
+                                    classes.albumBottomButtonRow
+                                  }
+                                  alignItems="center"
+                                  alignContent="center"
+                                  justify="space-between"
+                                  container>
+                                  <Grid item>
+                                    <Grid
+                                      alignItems="center"
+                                      alignContent="center"
+                                      direction="row"
+                                      container>
+                                      <Grid item>
+                                        <Icon
+                                          path={mdiPolaroid}
+                                          title={`${album.length} Photos in Album`}
+                                          style={{
+                                            marginTop: "0.25rem",
+                                          }}
+                                          size={1.25}
+                                          horizontal
+                                          vertical
+                                          rotate={180}
+                                          color="white"
+                                        />
+                                      </Grid>
+                                      <Grid item>
+                                        <Typography
+                                          variant="body1"
+                                          style={{
+                                            color: "white",
+                                            marginLeft: "0.125rem",
+                                          }}
+                                          component="span">
+                                          {`${album.length}`}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Grid>
+                                  <Grid item>
+                                    <Button
+                                      size="small"
+                                      variant="contained"
+                                      color="secondary"
+                                      onClick={() => {
+                                        setAddPhotoObject({
+                                          ...addPhotoObject,
+                                          albumId: album.id,
+                                          albumTitle: album.title,
+                                          dateStamp: album.dateStamp,
+                                        });
+                                        setOpenAddPhoto(true);
+                                      }}>
                                       <Icon
-                                        path={mdiPolaroid}
-                                        title={`${album.length} Photos in Album`}
-                                        style={{
-                                          marginTop: "0.25rem",
-                                        }}
-                                        size={1.25}
+                                        path={mdiCameraPlus}
+                                        title="Add Photo"
+                                        size={1}
                                         horizontal
                                         vertical
                                         rotate={180}
                                         color="white"
                                       />
-                                    </Grid>
-                                    <Grid item>
-                                      <Typography
-                                        variant="body1"
-                                        style={{
-                                          color: "white",
-                                          marginLeft: "0.125rem",
-                                        }}
-                                        component="span">
-                                        {`${album.length}`}
-                                      </Typography>
-                                    </Grid>
+                                    </Button>
                                   </Grid>
-                                </Grid>
-                                <Grid item>
-                                  <Button
-                                    size="small"
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => {
-                                      setAddPhotoObject({
-                                        ...addPhotoObject,
-                                        albumId: album.id,
-                                        albumTitle: album.title,
-                                        dateStamp: album.dateStamp,
-                                      });
-                                      setOpenAddPhoto(true);
-                                    }}>
-                                    <Icon
-                                      path={mdiCameraPlus}
-                                      title="Add Photo"
-                                      size={1}
-                                      horizontal
-                                      vertical
-                                      rotate={180}
-                                      color="white"
-                                    />
-                                  </Button>
                                 </Grid>
                               </Grid>
                             </Grid>
