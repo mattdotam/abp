@@ -52,6 +52,10 @@ const useStyles = makeStyles(theme => ({
     right: "0.5rem",
     top: "0.5rem",
   },
+  fullWidth: {
+    minWidth: "100%",
+    width: "100%",
+  },
 }));
 
 export default function AddPhoto(props) {
@@ -122,12 +126,12 @@ export default function AddPhoto(props) {
           className={classes.paper}
           spacing={1}
           container>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <Typography variant="h3" component="h2">
               Add New Photo
             </Typography>
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               required
               disabled={props.loading}
@@ -145,7 +149,7 @@ export default function AddPhoto(props) {
               }
             />
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               required
               disabled={props.loading}
@@ -164,7 +168,7 @@ export default function AddPhoto(props) {
               }
             />
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               id="tags"
               disabled={props.loading}
@@ -182,7 +186,7 @@ export default function AddPhoto(props) {
               }
             />
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               disabled
               id="albumTitle"
@@ -193,7 +197,7 @@ export default function AddPhoto(props) {
               value={props.addPhotoObject.albumTitle}
             />
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <MuiPickersUtilsProvider utils={MomentUtils}>
               <DatePicker
                 disableToolbar
@@ -205,6 +209,7 @@ export default function AddPhoto(props) {
                 margin="dense"
                 id="date-taken"
                 label="Date Taken"
+                className={classes.fullWidth}
                 value={props.addPhotoObject.dateStamp * 1000}
                 onChange={date =>
                   props.setAddPhotoObject({
@@ -218,7 +223,7 @@ export default function AddPhoto(props) {
               />
             </MuiPickersUtilsProvider>
           </Grid>
-          <Grid item>
+          <Grid className={classes.fullWidth} xs={12} item>
             <TextField
               required
               id="description"
@@ -240,7 +245,7 @@ export default function AddPhoto(props) {
             />
           </Grid>
           {props.addPhotoObject.photoData === undefined ? (
-            <Grid item>
+            <Grid className={classes.fullWidth} xs={12} item>
               <DropzoneArea
                 acceptedFiles={["image/*"]}
                 filesLimit={1}
