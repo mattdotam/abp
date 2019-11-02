@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, createRef } from "react";
 import { Link } from "react-router-dom";
 import {
   Grid,
@@ -12,29 +12,52 @@ import styles from "../styles/SingleStyles";
 const Single = props => {
   const { classes } = props;
   const photo = props.singlePhoto;
+  const [captionHeight, setCaptionHeight] = useState(0);
+  let captionRef = createRef();
   return (
     <div
       className={classes.root}
       style={{
-        display: `${props.single ? "initial" : "none"}`,
+        visibility: `${props.single ? "initial" : "hidden"}`,
       }}
       onClick={() => {
         if (props.viewSingle !== true) {
           props.setSingle(false);
           props.setSinglePhoto(undefined);
+          document.body.style.overflow = "auto";
         }
       }}>
       <Grid
-        direction={`${props.isPortrait ? "column" : "row"}`}
-        spacing={1}
+        className={classes.singleContainer}
+        direction="column"
         container>
-        <Grid item>
+        <Grid
+          style={{
+            maxHeight: `calc(100% - ${captionHeight}px)`,
+            width: "inherit",
+          }}
+          item>
           {photo ? (
-            <img src={photo.photoData} alt={photo.title} />
+            <img
+              onLoad={() => {
+                setCaptionHeight(
+                  captionRef.current.getBoundingClientRect().height
+                );
+                document.body.style.overflow = "hidden";
+              }}
+              style={{
+                height: "auto",
+                maxHeight: "100%",
+                width: "auto",
+                maxWidth: "100vw",
+              }}
+              src={photo.photoData}
+              alt={photo.title}
+            />
           ) : null}
         </Grid>
         {photo ? (
-          <Grid item>
+          <Grid ref={captionRef} item>
             <Paper
               margin={0}
               padding={2}
@@ -42,15 +65,16 @@ const Single = props => {
               <Typography
                 variant="body1"
                 component="p"
-                className={
-                  classes.captionText
-                }>{`Title: ${photo.title}`}</Typography>
+                className={classes.captionText}
+                style={{
+                  fontStyle: "italic",
+                }}>{`${photo.title}`}</Typography>
               <Typography
                 variant="body1"
                 component="p"
                 className={
                   classes.captionText
-                }>{`Description: ${photo.description}`}</Typography>
+                }>{`${photo.description}`}</Typography>
               <Typography
                 variant="body1"
                 component="p"
