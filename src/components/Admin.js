@@ -82,7 +82,10 @@ const Admin = props => {
               )
               .then(async response => {
                 tempPhotos[index] = await response.data[0].photoData;
-                if (tempPhotos.length === albums.length) {
+                if (
+                  tempPhotos.length === albums.length &&
+                  tempPhotos.length > 0
+                ) {
                   if (tempPhotos.includes(undefined) === false) {
                     setCoverPhotos(tempPhotos);
                   }
