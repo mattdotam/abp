@@ -125,7 +125,7 @@ exports.handler = async (event, context) => {
             if (q.photoData === "false") {
               // Return array of all photos in an album, no images
               return await Photo.find({
-                $or: [{ id: q.id }, { slug: q.id }],
+                albumId: q.albumId,
               }).then(data => {
                 let results = [];
                 data.forEach(d =>

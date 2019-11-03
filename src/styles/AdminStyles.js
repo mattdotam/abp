@@ -7,10 +7,22 @@ const styles = theme => ({
     backgroundColor: "#444444",
     color: "white",
     margin: theme.spacing(1),
-    padding: theme.spacing(1),
     borderRadius: theme.spacing(0.5),
     boxShadow: theme.shadows[3],
     minHeight: "128px",
+  },
+  coverPhotoContainer: {
+    maxWidth: "100%",
+    height: "150px",
+    overflowY: "hidden",
+    backgroundColor: "#ff8500",
+  },
+  coverPhoto: {
+    width: "100%",
+    height: "auto",
+    position: "relative",
+    top: "50%",
+    transform: "translateY(-50%)",
   },
   albumTopButtonRow: {
     marginTop: "0.25rem",

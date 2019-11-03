@@ -61,6 +61,44 @@ const Admin = props => {
   const [snackbarShow, setSnackbarShow] = React.useState(false);
   const [snackbarMsg, setSnackbarMsg] = React.useState("Snackbar");
 
+  const [coverPhotos, setCoverPhotos] = React.useState([]);
+
+  let tempPhotos = [];
+
+  const getRandomPhotoFromAlbum = async (albumId, index) => {
+    await axios
+      .get(
+        `/.netlify/functions/photo?albumId=${albumId}&photoData=false`
+      )
+      .then(async response => {
+        if (response.data.length > 0) {
+          const randomIndex = Math.floor(
+            Math.random() * Math.floor(response.data.length + 1)
+          );
+          if (response.data[randomIndex] !== undefined) {
+            return await axios
+              .get(
+                `/.netlify/functions/photo?id=${response.data[randomIndex].id}&photoData=true`
+              )
+              .then(async response => {
+                tempPhotos[index] = await response.data[0].photoData;
+                if (tempPhotos.length === albums.length) {
+                  if (tempPhotos.includes(undefined) === false) {
+                    setCoverPhotos(tempPhotos);
+                  }
+                }
+                return response.data[0].photoData;
+              });
+          } else {
+            return null;
+          }
+        } else {
+          tempPhotos[index] = null;
+          return null;
+        }
+      });
+  };
+
   const responseGoogle = response => {
     props.setAvatar(response.profileObj.imageUrl);
     if (
@@ -234,11 +272,36 @@ const Admin = props => {
                 {albums === [] || albums === undefined ? (
                   <CircularProgress color="primary" />
                 ) : (
-                  albums.map(album => {
+                  albums.map((album, index) => {
+                    if (coverPhotos.length < albums.length) {
+                      getRandomPhotoFromAlbum(album.id, index);
+                    }
                     return (
                       <Grid xs={12} sm={6} md={3} item>
                         <Card className={classes.albumCard} square>
-                          <Grid direction="column" container>
+                          <Link
+                            className={classes.albumLink}
+                            alt={album.title}
+                            to={`/${album.slug}`}>
+                            <div
+                              className={classes.coverPhotoContainer}>
+                              {coverPhotos[index] === undefined ? (
+                                <CircularProgress color="primary" />
+                              ) : coverPhotos[index] === null ? (
+                                <span />
+                              ) : (
+                                <img
+                                  className={classes.coverPhoto}
+                                  alt={album.title}
+                                  src={coverPhotos[index]}
+                                />
+                              )}
+                            </div>
+                          </Link>
+                          <Grid
+                            style={{ padding: "0.4rem" }}
+                            direction="column"
+                            container>
                             <Grid item>
                               <Grid
                                 direction="row"
