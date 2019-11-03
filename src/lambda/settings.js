@@ -66,7 +66,7 @@ exports.handler = async (event, context) => {
       // PATCH Photo
       if (roleCheck === true) {
         try {
-          await Setting.findOneAndUpdate(
+          const patchSetting = await Setting.findOneAndUpdate(
             {},
             {
               instagram: params.instagram,
@@ -77,6 +77,7 @@ exports.handler = async (event, context) => {
           );
           return {
             statusCode: 201,
+            body: JSON.stringify(patchSetting),
           };
         } catch (err) {
           return {

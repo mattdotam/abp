@@ -20,6 +20,7 @@ class App extends Component {
       role: null,
       avatar: null,
       loading: false,
+      settings: undefined,
     };
     this.getToken = this.getToken.bind(this);
     this.setToken = this.setToken.bind(this);
@@ -30,9 +31,12 @@ class App extends Component {
     this.setAvatar = this.setAvatar.bind(this);
     this.clearAvatar = this.clearAvatar.bind(this);
     this.setLoading = this.setLoading.bind(this);
+    this.getSettings = this.getSettings.bind(this);
+    this.setSettings = this.setSettings.bind(this);
   }
   componentDidMount() {
     this.getToken();
+    this.getSettings();
   }
   getToken() {
     if (window.localStorage.getItem("token")) {
@@ -89,6 +93,22 @@ class App extends Component {
     this.setState({ avatar: null });
     window.localStorage.removeItem("avatar");
   }
+  async getSettings() {
+    await axios
+      .get(`/.netlify/functions/settings`)
+      .then(async response => {
+        const data = { ...response.data[0] };
+        this.setSettings({
+          instagram: data.instagram,
+          facebook: data.facebook,
+          twitter: data.twitter,
+          linkedin: data.linkedin,
+        });
+      });
+  }
+  setSettings(settingData) {
+    this.setState({ settings: { ...settingData } });
+  }
   render() {
     return (
       <Grid direction="column" container>
@@ -138,6 +158,8 @@ class App extends Component {
                   setAvatar={this.setAvatar}
                   loading={this.state.loading}
                   setLoading={this.setLoading}
+                  settings={this.state.settings}
+                  setSettings={this.setSettings}
                 />
               )}
             />
@@ -179,7 +201,7 @@ class App extends Component {
           </Switch>
         </Grid>
         <Grid item>
-          <Footer />
+          <Footer settings={this.state.settings} />
         </Grid>
       </Grid>
     );

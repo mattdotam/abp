@@ -12,15 +12,7 @@ import axios from "axios";
 
 const Footer = props => {
   const { classes } = props;
-  const [social, setSocial] = useState(undefined);
-  const getSocial = async () => {
-    await axios.get("/.netlify/functions/settings").then(response => {
-      setSocial(...response.data);
-    });
-  };
-  if (social === undefined) {
-    getSocial();
-  }
+  const social = props.settings;
   return (
     <AppBar
       position="fixed"

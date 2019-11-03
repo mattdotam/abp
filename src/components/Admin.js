@@ -22,10 +22,12 @@ import {
   mdiTrashCan,
   mdiCameraPlus,
   mdiPolaroid,
+  mdiCogs,
 } from "@mdi/js";
 import AddAlbum from "./AddAlbum";
 import EditAlbum from "./EditAlbum";
 import AddPhoto from "./AddPhoto";
+import EditSettings from "./EditSettings";
 
 const Admin = props => {
   const { classes } = props;
@@ -62,8 +64,20 @@ const Admin = props => {
   const [snackbarMsg, setSnackbarMsg] = React.useState("Snackbar");
 
   const [coverPhotos, setCoverPhotos] = React.useState([]);
-
   let tempPhotos = [];
+
+  const [openSettings, setOpenSettings] = useState(false);
+
+  const patchSettings = async settingData => {
+    await axios
+      .patch(`/.netlify/functions/settings`, {
+        ...settingData,
+        token: props.token,
+      })
+      .then(settingsPatch => {
+        // props.setSettings({ ...settingData });
+      });
+  };
 
   const getRandomPhotoFromAlbum = async (albumId, index) => {
     await axios
@@ -211,64 +225,54 @@ const Admin = props => {
         {props.token !== null && (
           <Grid spacing={1} direction="column">
             <Grid item>
-              <Typography
-                style={{
-                  paddingTop: "1rem",
-                  paddingLeft: "0.75rem",
-                  paddingBottom: "0.5rem",
-                }}
-                variant="h2"
-                component="h2">
-                Albums{" "}
-                <span>
-                  <AddAlbum
-                    addAlbumObject={addAlbumObject}
-                    setAddAlbumObject={setAddAlbumObject}
-                    albumPost={albumPost}
-                    loading={props.loading}
-                    setLoading={props.setLoading}
-                    setSnackbarShow={setSnackbarShow}
-                    setSnackbarMsg={setSnackbarMsg}
-                  />
-                  <EditAlbum
-                    openEdit={openEdit}
-                    setOpenEdit={setOpenEdit}
-                    editAlbumObject={editAlbumObject}
-                    setEditAlbumObject={setEditAlbumObject}
-                    albumPatch={albumPatch}
-                    loading={props.loading}
-                    setLoading={props.setLoading}
-                    setSnackbarShow={setSnackbarShow}
-                    setSnackbarMsg={setSnackbarMsg}
-                  />
-                  <AddPhoto
-                    openAddPhoto={openAddPhoto}
-                    setOpenAddPhoto={setOpenAddPhoto}
-                    addPhotoObject={addPhotoObject}
-                    setAddPhotoObject={setAddPhotoObject}
-                    photoPost={photoPost}
-                    loading={props.loading}
-                    setLoading={props.setLoading}
-                    setSnackbarShow={setSnackbarShow}
-                    setSnackbarMsg={setSnackbarMsg}
-                  />
-                  <Snackbar
-                    anchorOrigin={{
-                      vertical: "bottom",
-                      horizontal: "left",
-                    }}
-                    open={snackbarShow}
-                    ContentProps={{
-                      "aria-describedby": "message-id",
-                    }}
-                    autoHideDuration={5000}
-                    onClose={handleSnackbarClose}
-                    message={
-                      <span id="message-id">{`${snackbarMsg}`}</span>
-                    }
-                  />
-                </span>
-              </Typography>
+              <Grid direction="row" justify="space-between" container>
+                <Grid style={{ marginTop: "1rem" }} item>
+                  <Grid direction="row" spacing={1} container>
+                    <Grid item>
+                      <Typography
+                        style={{
+                          marginTop: "0",
+                          paddingLeft: "0.75rem",
+                          paddingBottom: "0.5rem",
+                        }}
+                        variant="h2"
+                        component="h2">
+                        Albums
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <AddAlbum
+                        addAlbumObject={addAlbumObject}
+                        setAddAlbumObject={setAddAlbumObject}
+                        albumPost={albumPost}
+                        loading={props.loading}
+                        setLoading={props.setLoading}
+                        setSnackbarShow={setSnackbarShow}
+                        setSnackbarMsg={setSnackbarMsg}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <Grid
+                  style={{ marginTop: "1rem", marginRight: "1rem" }}
+                  item>
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    size="small"
+                    onClick={() => setOpenSettings(true)}>
+                    <Icon
+                      path={mdiCogs}
+                      title="Edit Settings"
+                      size={1}
+                      horizontal
+                      vertical
+                      rotate={180}
+                      color="white"
+                    />
+                  </Button>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item>
               <Grid direction="row" container>
@@ -494,6 +498,52 @@ const Admin = props => {
             </Grid>
           </Grid>
         )}
+        <EditAlbum
+          openEdit={openEdit}
+          setOpenEdit={setOpenEdit}
+          editAlbumObject={editAlbumObject}
+          setEditAlbumObject={setEditAlbumObject}
+          albumPatch={albumPatch}
+          loading={props.loading}
+          setLoading={props.setLoading}
+          setSnackbarShow={setSnackbarShow}
+          setSnackbarMsg={setSnackbarMsg}
+        />
+        <AddPhoto
+          openAddPhoto={openAddPhoto}
+          setOpenAddPhoto={setOpenAddPhoto}
+          addPhotoObject={addPhotoObject}
+          setAddPhotoObject={setAddPhotoObject}
+          photoPost={photoPost}
+          loading={props.loading}
+          setLoading={props.setLoading}
+          setSnackbarShow={setSnackbarShow}
+          setSnackbarMsg={setSnackbarMsg}
+        />
+        <EditSettings
+          settings={props.settings}
+          openSettings={openSettings}
+          setOpenSettings={setOpenSettings}
+          setSettings={props.setSettings}
+          patchSettings={patchSettings}
+          loading={props.loading}
+          setLoading={props.setLoading}
+          setSnackbarShow={setSnackbarShow}
+          setSnackbarMsg={setSnackbarMsg}
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          open={snackbarShow}
+          ContentProps={{
+            "aria-describedby": "message-id",
+          }}
+          autoHideDuration={5000}
+          onClose={handleSnackbarClose}
+          message={<span id="message-id">{`${snackbarMsg}`}</span>}
+        />
       </Paper>
     </Container>
   );
