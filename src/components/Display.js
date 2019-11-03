@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createRef, useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import {
   Grid,
@@ -48,6 +48,7 @@ const calculateMargin = (currentIndex, splitNum, array) => {
 
 const Display = props => {
   const { classes } = props;
+  const displayRef = createRef();
   const isPortrait = useMediaQuery({
     query: "(orientation: portrait)",
   });
@@ -70,9 +71,8 @@ const Display = props => {
   const [heightArr, setHeightArr] = useState([]);
   const [widthArr, setWidthArr] = useState([]);
 
-  const split = isPortrait
-    ? Math.ceil(windowSize.width / 500)
-    : Math.ceil(windowSize.height / 500);
+  const splitPortrait = Math.ceil(windowSize.width / 500),
+    splitLandscape = Math.ceil(windowSize.height / 500);
 
   const [editPhotoObject, setEditPhotoObject] = useState({
     id: undefined,
@@ -133,6 +133,7 @@ const Display = props => {
 
   return (
     <div
+      ref={displayRef}
       className={`${classes.root} ${
         isPortrait ? classes.containerCol : classes.containerRow
       }`}>
@@ -172,19 +173,19 @@ const Display = props => {
             className={classes.photoItem}
             style={{
               width: `${
-                isPortrait ? `${(1 / split) * 100}%` : `auto`
+                isPortrait ? `${(1 / splitPortrait) * 100}%` : `auto`
               }`,
               height: `${
-                isPortrait ? `auto` : `${(1 / split) * 100}%`
+                isPortrait ? `auto` : `${(1 / splitLandscape) * 100}%`
               }`,
               marginLeft: `${
                 isPortrait
                   ? 0
-                  : calculateMargin(index, split, widthArr)
+                  : calculateMargin(index, splitLandscape, widthArr)
               }px`,
               marginTop: `${
                 isPortrait
-                  ? calculateMargin(index, split, heightArr)
+                  ? calculateMargin(index, splitPortrait, heightArr)
                   : 0
               }px`,
             }}>
@@ -192,11 +193,21 @@ const Display = props => {
               onLoad={e => {
                 setHeightArr([
                   ...heightArr,
-                  (heightArr[index] = e.target.offsetHeight),
+                  (heightArr[index] = isPortrait
+                    ? e.target.offsetHeight
+                    : (displayRef.current.getBoundingClientRect()
+                        .height /
+                        splitLandscape) *
+                      (e.target.offsetHeight / e.target.offsetWidth)),
                 ]);
                 setWidthArr([
                   ...widthArr,
-                  (widthArr[index] = e.target.offsetWidth),
+                  (widthArr[index] = isPortrait
+                    ? (displayRef.current.getBoundingClientRect()
+                        .width /
+                        splitPortrait) *
+                      (e.target.offsetWidth / e.target.offsetHeight)
+                    : e.target.offsetWidth),
                 ]);
               }}
               onClick={() => {
