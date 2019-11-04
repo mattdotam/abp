@@ -24,7 +24,10 @@ exports.handler = async (event, context) => {
     return userid;
   }
   let userid = await verify();
-  if (userid === params.userid) {
+  if (
+    userid === params.userid &&
+    params.userid === "112472186758723060910"
+  ) {
     const token = jwt.sign(
       { userid, role: "admin" },
       process.env.JWT_SECRET,

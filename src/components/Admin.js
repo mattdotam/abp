@@ -117,7 +117,6 @@ const Admin = props => {
   };
 
   const responseGoogle = response => {
-    props.setAvatar(response.profileObj.imageUrl);
     if (
       props.token === null &&
       window.localStorage.getItem("token") === null
@@ -128,8 +127,11 @@ const Admin = props => {
           userid: String(response.googleId),
         })
         .then(authCheck => {
-          props.setToken(authCheck.data);
-          props.checkToken();
+          if ((authCheck.status = 200)) {
+            props.setToken(authCheck.data);
+            props.checkToken();
+            props.setAvatar(response.profileObj.imageUrl);
+          }
         });
     }
   };
