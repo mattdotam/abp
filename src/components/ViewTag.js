@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Grid,
@@ -18,6 +18,12 @@ const ViewTag = props => {
   const { params } = props.match;
   const [photosArr, setPhotosArr] = useState(undefined);
 
+  // useEffect(() => {
+  //   if (photosArr !== undefined && photosArr !== "loading") {
+  //     getPhotosByTag(photosArr.length);
+  //   }
+  // });
+
   async function getAlbumTitle(photoObject, index, length) {
     try {
       await axios
@@ -29,21 +35,29 @@ const ViewTag = props => {
             albumSlug: response.data.slug,
           };
           newPhotoArr.push(photoObjectWithAlbumTitle);
-          if (newPhotoArr.length === length) {
-            setPhotosArr(newPhotoArr);
-            props.setLoading(false);
+          if (photosArr === undefined) {
+            if (
+              newPhotoArr.length + length ===
+              newPhotoArr.length + index + 1
+            ) {
+              setPhotosArr(newPhotoArr);
+              props.setLoading(false);
+              if (length === 6) {
+                getPhotosByTag(newPhotoArr.length);
+              }
+            }
           }
         });
     } catch (err) {
       console.log(err);
     }
   }
-  const getPhotosByTag = async () => {
+  const getPhotosByTag = async fromIndex => {
     try {
       props.setLoading(true);
       await axios
         .get(
-          `/.netlify/functions/photo?tag=${params.tag}&photoData=true`
+          `/.netlify/functions/photo?tag=${params.tag}&index=${fromIndex}&batch=6&photoData=true`
         )
         .then(response => {
           response.data.forEach((photo, index) => {
@@ -57,7 +71,7 @@ const ViewTag = props => {
   if (photosArr === undefined) {
     setPhotosArr("loading");
     newPhotoArr.length = 0;
-    getPhotosByTag();
+    getPhotosByTag(newPhotoArr.length);
   }
   return (
     <div>

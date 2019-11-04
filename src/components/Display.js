@@ -170,6 +170,7 @@ const Display = props => {
       {props.photosArr.map((photo, index) => {
         return (
           <div
+            key={`photocontainer-${index}`}
             className={classes.photoItem}
             style={{
               width: `${
@@ -190,6 +191,7 @@ const Display = props => {
               }px`,
             }}>
             <img
+              key={`photo-${index}`}
               onLoad={e => {
                 setHeightArr([
                   ...heightArr,

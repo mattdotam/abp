@@ -144,6 +144,7 @@ exports.handler = async (event, context) => {
             } else {
               if (q.index) {
                 return await Photo.find({ albumId: q.albumId })
+                  .sort("-createStamp")
                   .skip(Number(q.index))
                   .limit(Number(q.batch))
                   .then(data => {
@@ -194,6 +195,7 @@ exports.handler = async (event, context) => {
           } else if (q.tag) {
             if (q.photoData === "true") {
               return await Photo.find({ tags: q.tag })
+                .sort("-createStamp")
                 .skip(Number(q.index))
                 .limit(Number(q.batch))
                 .then(data => {
