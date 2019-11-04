@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Grid,
-  Paper,
-  Typography,
   withStyles,
   CircularProgress,
 } from "@material-ui/core";
@@ -17,35 +15,52 @@ const ViewAlbum = props => {
   const [album, setAlbum] = useState(undefined);
   const [photosArr, setPhotosArr] = useState(undefined);
 
+  useEffect(() => {
+    if (
+      album !== undefined &&
+      photosArr !== undefined &&
+      photosArr.length < album.length
+    ) {
+      getPhotos(album.id, photosArr.length);
+    }
+  }, [album, photosArr]);
+
   const getAlbum = async () => {
     try {
       await axios
         .get(`/.netlify/functions/album?slug=${params.album}`)
         .then(response => {
           setAlbum(response.data);
-          getPhotos(response.data.id);
+          getPhotos(response.data.id, 0, response.data.length);
         });
     } catch (err) {
       setAlbum(null);
     }
   };
-  if (album === undefined) {
-    setAlbum("loading");
-    getAlbum();
-  }
-  const getPhotos = async albumId => {
+
+  const getPhotos = (albumId, fromIndex) => {
     try {
-      await axios
+      axios
         .get(
-          `/.netlify/functions/photo?albumId=${albumId}&photoData=true`
+          `/.netlify/functions/photo?albumId=${albumId}&index=${fromIndex}&batch=6&photoData=true`
         )
         .then(response => {
-          setPhotosArr(response.data);
+          if (typeof photosArr === "object") {
+            setPhotosArr([...photosArr, ...response.data]);
+          } else {
+            setPhotosArr([...response.data]);
+          }
         });
     } catch (err) {
       setPhotosArr(null);
     }
   };
+
+  if (album === undefined) {
+    setAlbum("loading");
+    getAlbum();
+  }
+
   return (
     <div>
       {album === undefined ? (

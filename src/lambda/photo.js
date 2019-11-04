@@ -142,6 +142,27 @@ exports.handler = async (event, context) => {
                 return results;
               });
             } else {
+              if (q.index) {
+                return await Photo.find({ albumId: q.albumId })
+                  .skip(Number(q.index))
+                  .limit(Number(q.batch))
+                  .then(data => {
+                    let results = [];
+                    data.forEach(d =>
+                      results.push({
+                        id: d.id,
+                        title: d.title,
+                        albumId: d.albumId,
+                        dateStamp: d.dateStamp,
+                        description: d.description,
+                        slug: d.slug,
+                        tags: d.tags,
+                        photoData: d.photoData,
+                      })
+                    );
+                    return results;
+                  });
+              }
               // Return array of all photos in an album, with image data
               return await Photo.find({ albumId: q.albumId }).then(
                 data => {
@@ -172,22 +193,25 @@ exports.handler = async (event, context) => {
             }
           } else if (q.tag) {
             if (q.photoData === "true") {
-              return await Photo.find({ tags: q.tag }).then(data => {
-                let results = [];
-                data.forEach(d =>
-                  results.push({
-                    id: d.id,
-                    title: d.title,
-                    albumId: d.albumId,
-                    dateStamp: d.dateStamp,
-                    description: d.description,
-                    slug: d.slug,
-                    tags: d.tags,
-                    photoData: d.photoData,
-                  })
-                );
-                return results;
-              });
+              return await Photo.find({ tags: q.tag })
+                .skip(Number(q.index))
+                .limit(Number(q.batch))
+                .then(data => {
+                  let results = [];
+                  data.forEach(d =>
+                    results.push({
+                      id: d.id,
+                      title: d.title,
+                      albumId: d.albumId,
+                      dateStamp: d.dateStamp,
+                      description: d.description,
+                      slug: d.slug,
+                      tags: d.tags,
+                      photoData: d.photoData,
+                    })
+                  );
+                  return results;
+                });
             } else {
               return await Photo.find({ tags: q.tag }).then(data => {
                 let results = [];
