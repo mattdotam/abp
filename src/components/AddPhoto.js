@@ -108,6 +108,10 @@ export default function AddPhoto(props) {
       ...props.addPhotoObject,
       tags: props.addPhotoObject.tags.split(",").map(el => el.trim()),
     });
+    let tempAlbums = props.albums;
+    tempAlbums[props.addPhotoObject.albumIndex].length =
+      props.addPhotoObject.albumSize + 1;
+    props.setAlbums(tempAlbums);
     props.setSnackbarShow(true);
     props.setLoading(false);
     handleClose();

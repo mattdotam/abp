@@ -472,6 +472,8 @@ const Admin = props => {
                                           ...addPhotoObject,
                                           albumId: album.id,
                                           albumTitle: album.title,
+                                          albumIndex: index,
+                                          albumSize: album.length,
                                           dateStamp: album.dateStamp,
                                         });
                                         setOpenAddPhoto(true);
@@ -521,6 +523,8 @@ const Admin = props => {
           setLoading={props.setLoading}
           setSnackbarShow={setSnackbarShow}
           setSnackbarMsg={setSnackbarMsg}
+          albums={albums}
+          setAlbums={setAlbums}
         />
         <EditSettings
           settings={props.settings}
