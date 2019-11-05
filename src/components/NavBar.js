@@ -8,8 +8,8 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  withStyles,
   Typography,
+  withStyles,
 } from "@material-ui/core";
 import { GoogleLogout } from "react-google-login";
 import Icon from "@mdi/react";
@@ -17,6 +17,7 @@ import { mdiMenu } from "@mdi/js";
 import styles from "../styles/NavBarStyles";
 import logo from "../bin/abp-logo.png";
 import Contact from "./Contact";
+import axios from "axios";
 
 const mobileMenuId = "primary-menu-mobile";
 const adminMenuId = "primary-menu-admin";
@@ -31,6 +32,7 @@ class NavBar extends Component {
       contactName: "",
       contactEmail: "",
       contactMessage: "",
+      loading: false,
     };
     this.handleLogout = this.handleLogout.bind(this);
     this.renderMobileMenu = this.renderMobileMenu.bind(this);
@@ -42,14 +44,31 @@ class NavBar extends Component {
     this.handleAdminMenuOpen = this.handleAdminMenuOpen.bind(this);
     this.handleAdminMenuClose = this.handleAdminMenuClose.bind(this);
     this.setOpenContact = this.setOpenContact.bind(this);
+    this.handleContactClose = this.handleContactClose.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
+    this.setLoading = this.setLoading.bind(this);
   }
-  sendMessage(msg) {
-    console.log(msg);
+  setLoading(setting) {
+    this.setState({ loading: setting });
+  }
+  async sendMessage(msg) {
+    console.log("sendMessage msg: ", { ...msg });
+    // await axios.post("/.netlify/functions/message", {
+    //   ...msg,
+    // });
+    this.props.setSnackbarMsg(`Message Sent`);
+    return true;
   }
   handleChange(e) {
     this.setState({ [e.target.id]: e.target.value });
+  }
+  handleContactClose() {
+    this.setState({
+      contactName: "",
+      contactEmail: "",
+      contactMessage: "",
+    });
   }
   setOpenContact(setting) {
     this.setState({ openContact: setting });
@@ -63,7 +82,6 @@ class NavBar extends Component {
     this.handleAdminMenuClose(e);
   }
   handleAdminMenuOpen(e) {
-    console.log(e.currentTarget);
     this.setState({ adminAnchorEl: e.currentTarget });
   }
   handleAdminMenuClose(e) {
@@ -100,15 +118,6 @@ class NavBar extends Component {
         onClose={this.handleMobileMenuClose}
         onKeyDown={e => this.handleMobileMenuClose(e)}
         className={classes.mobileMenu}>
-        <Contact
-          openContact={this.state.openContact}
-          setOpenContact={this.setOpenContact}
-          handleChange={this.handleChange}
-          name={this.state.contactName}
-          email={this.state.email}
-          message={this.state.message}
-          sendMessage={this.sendMessage}
-        />
         <MenuItem>
           <Link
             variant="body1"
@@ -233,6 +242,20 @@ class NavBar extends Component {
         position="fixed"
         color="primary">
         <Toolbar className={classes.toolBar}>
+          <Contact
+            openContact={this.state.openContact}
+            setOpenContact={this.setOpenContact}
+            handleChange={this.handleChange}
+            name={this.state.contactName}
+            email={this.state.contactEmail}
+            message={this.state.contactMessage}
+            sendMessage={this.sendMessage}
+            handleContactClose={this.handleContactClose}
+            loading={this.state.loading}
+            setLoading={this.setLoading}
+            setSnackbarMsg={this.props.setSnackbarMsg}
+            setSnackbarOpen={this.props.setSnackbarOpen}
+          />
           <Grid
             justify="space-between"
             alignItems="center"

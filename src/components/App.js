@@ -3,7 +3,8 @@ import axios from "axios";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 import { Route, Switch } from "react-router-dom";
-import { Grid } from "@material-ui/core";
+import { Grid, Snackbar, SnackbarContent } from "@material-ui/core";
+import { green } from "@material-ui/core/colors";
 import Home from "./Home";
 import About from "./About";
 import Admin from "./Admin";
@@ -20,6 +21,8 @@ class App extends Component {
       avatar: null,
       loading: false,
       settings: undefined,
+      snackbarShow: false,
+      snackbarMsg: "Snackbar",
     };
     this.getToken = this.getToken.bind(this);
     this.setToken = this.setToken.bind(this);
@@ -32,10 +35,18 @@ class App extends Component {
     this.setLoading = this.setLoading.bind(this);
     this.getSettings = this.getSettings.bind(this);
     this.setSettings = this.setSettings.bind(this);
+    this.setSnackbarMsg = this.setSnackbarMsg.bind(this);
+    this.setSnackbarOpen = this.setSnackbarOpen.bind(this);
   }
   componentDidMount() {
     this.getToken();
     this.getSettings();
+  }
+  setSnackbarOpen(setting) {
+    this.setState({ snackbarShow: setting });
+  }
+  setSnackbarMsg(message) {
+    this.setState({ snackbarMsg: message });
   }
   getToken() {
     if (window.localStorage.getItem("token")) {
@@ -120,6 +131,8 @@ class App extends Component {
             clearAvatar={this.clearAvatar}
             loading={this.state.loading}
             setLoading={this.setLoading}
+            setSnackbarMsg={this.setSnackbarMsg}
+            setSnackbarOpen={this.setSnackbarOpen}
           />
         </Grid>
         <Grid item>
@@ -198,6 +211,27 @@ class App extends Component {
         </Grid>
         <Grid item>
           <Footer settings={this.state.settings} />
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            open={this.state.snackbarShow}
+            ContentProps={{
+              "aria-describedby": "message-id",
+            }}
+            autoHideDuration={5000}
+            onClose={() => this.setSnackbarOpen(false)}>
+            <SnackbarContent
+              style={{
+                backgroundColor: green[600],
+                color: "white",
+              }}
+              message={
+                <span id="message-id">{`${this.state.snackbarMsg}`}</span>
+              }
+            />
+          </Snackbar>
         </Grid>
       </Grid>
     );

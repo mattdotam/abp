@@ -44,20 +44,23 @@ export default function Contact(props) {
   const [modalStyle] = React.useState(getModalStyle);
 
   const handleClose = () => {
+    props.handleContactClose();
     props.setOpenContact(false);
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
     props.setLoading(true);
-    props.setSnackbarMsg(`Edited Social Links`);
-    await props.patchSettings({
-      ...props.settings,
+    await props.sendMessage({
+      name: props.name,
+      email: props.email,
+      message: props.message,
     });
-    props.setSnackbarShow(true);
+    props.setSnackbarOpen(true);
     props.setLoading(false);
     handleClose();
   };
+
   return (
     <span>
       <Modal
