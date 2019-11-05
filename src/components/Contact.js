@@ -1,51 +1,144 @@
 import React from "react";
-import { Container, Grid, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Modal,
+  Grid,
+  Typography,
+  TextField,
+  Button,
+  CircularProgress,
+} from "@material-ui/core";
 
-const Contact = () => {
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
+const useStyles = makeStyles(theme => ({
+  paper: {
+    position: "absolute",
+    width: 400,
+    backgroundColor: "#f0f0f0",
+    border: "1px solid #333333",
+    boxShadow: theme.shadows[3],
+    padding: theme.spacing(2, 4, 3),
+    borderRadius: theme.spacing(1),
+    outline: "none",
+    "& focus": {
+      outline: "none",
+    },
+  },
+  fullWidth: {
+    minWidth: "100%",
+    width: "100%",
+  },
+}));
+
+export default function Contact(props) {
+  const classes = useStyles();
+  const [modalStyle] = React.useState(getModalStyle);
+
+  const handleClose = () => {
+    props.setOpenContact(false);
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    props.setLoading(true);
+    props.setSnackbarMsg(`Edited Social Links`);
+    await props.patchSettings({
+      ...props.settings,
+    });
+    props.setSnackbarShow(true);
+    props.setLoading(false);
+    handleClose();
+  };
   return (
-    <Container maxWidth="lg">
-      <Grid direction="column">
-        <Typography
-          style={{ color: "white" }}
-          variant="h1"
-          component="h1">
-          Contact Iain
-        </Typography>
-        <Typography
-          style={{ color: "white", marginBottom: "1rem" }}
-          variant="body1"
-          component="p">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-          do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          Duis aute irure dolor in reprehenderit in voluptate velit
-          esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia
-          deserunt mollit anim id est laborum.
-        </Typography>
-        <Typography
-          style={{ color: "white", marginBottom: "1rem" }}
-          variant="body1"
-          component="p">
-          Integer enim neque volutpat ac tincidunt vitae semper quis
-          lectus. Enim sit amet venenatis urna. Elit at imperdiet dui
-          accumsan. Pretium lectus quam id leo in vitae turpis.
-          Vehicula ipsum a arcu cursus vitae congue. Donec ac odio
-          tempor orci dapibus ultrices in iaculis nunc. Fames ac
-          turpis egestas maecenas pharetra. Aliquet bibendum enim
-          facilisis gravida neque convallis a cras semper. Habitant
-          morbi tristique senectus et netus et malesuada. Sed pulvinar
-          proin gravida hendrerit. Pharetra magna ac placerat
-          vestibulum lectus mauris ultrices eros in. Non diam
-          phasellus vestibulum lorem. Leo duis ut diam quam nulla
-          porttitor massa id. Aliquam purus sit amet luctus venenatis
-          lectus. Magna sit amet purus gravida quis. Enim nunc
-          faucibus a pellentesque sit.
-        </Typography>
-      </Grid>
-    </Container>
+    <span>
+      <Modal
+        aria-labelledby="contact-form"
+        aria-describedby="send-message-to-iain"
+        open={props.openContact}
+        onClose={handleClose}>
+        <Grid
+          direction="column"
+          style={modalStyle}
+          className={classes.paper}
+          spacing={1}
+          container>
+          <Grid className={classes.fullWidth} xs={12} item>
+            <Typography variant="h3" component="h2">
+              {`Contact Iain`}
+            </Typography>
+          </Grid>
+          <Grid className={classes.fullWidth} xs={12} item>
+            <TextField
+              required
+              tabIndex="1"
+              disabled={props.loading}
+              id="contactName"
+              label="Name"
+              margin="dense"
+              variant="outlined"
+              className={classes.fullWidth}
+              placeholder="Your Name"
+              value={props.name}
+              onChange={props.handleChange}
+            />
+          </Grid>
+          <Grid className={classes.fullWidth} xs={12} item>
+            <TextField
+              required
+              tabIndex="2"
+              disabled={props.loading}
+              id="contactEmail"
+              label="Email"
+              margin="dense"
+              variant="outlined"
+              className={classes.fullWidth}
+              placeholder="Your Email"
+              value={props.email}
+              onChange={props.handleChange}
+            />
+          </Grid>
+          <Grid className={classes.fullWidth} xs={12} item>
+            <TextField
+              required
+              tabIndex="3"
+              id="contactMessage"
+              label="Message"
+              margin="dense"
+              variant="outlined"
+              placeholder="Your Message"
+              className={classes.fullWidth}
+              multiline={true}
+              disabled={props.loading}
+              rows="6"
+              rowsMax="10"
+              value={props.message}
+              onChange={props.handleChange}
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              onClick={handleSubmit}
+              disabled={props.loading}
+              variant="contained"
+              color="primary">
+              {props.loading ? (
+                <CircularProgress color="primary" />
+              ) : (
+                `Send`
+              )}
+            </Button>
+          </Grid>
+        </Grid>
+      </Modal>
+    </span>
   );
-};
-
-export default Contact;
+}

@@ -9,12 +9,14 @@ import {
   Menu,
   MenuItem,
   withStyles,
+  Typography,
 } from "@material-ui/core";
 import { GoogleLogout } from "react-google-login";
 import Icon from "@mdi/react";
 import { mdiMenu } from "@mdi/js";
 import styles from "../styles/NavBarStyles";
 import logo from "../bin/abp-logo.png";
+import Contact from "./Contact";
 
 const mobileMenuId = "primary-menu-mobile";
 const adminMenuId = "primary-menu-admin";
@@ -25,6 +27,10 @@ class NavBar extends Component {
     this.state = {
       mobileAnchorEl: null,
       adminAnchorEl: null,
+      openContact: false,
+      contactName: "",
+      contactEmail: "",
+      contactMessage: "",
     };
     this.handleLogout = this.handleLogout.bind(this);
     this.renderMobileMenu = this.renderMobileMenu.bind(this);
@@ -35,6 +41,18 @@ class NavBar extends Component {
     this.renderAdminMenu = this.renderAdminMenu.bind(this);
     this.handleAdminMenuOpen = this.handleAdminMenuOpen.bind(this);
     this.handleAdminMenuClose = this.handleAdminMenuClose.bind(this);
+    this.setOpenContact = this.setOpenContact.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
+  }
+  sendMessage(msg) {
+    console.log(msg);
+  }
+  handleChange(e) {
+    this.setState({ [e.target.id]: e.target.value });
+  }
+  setOpenContact(setting) {
+    this.setState({ openContact: setting });
   }
   handleLogout(e) {
     e.preventDefault();
@@ -82,6 +100,15 @@ class NavBar extends Component {
         onClose={this.handleMobileMenuClose}
         onKeyDown={e => this.handleMobileMenuClose(e)}
         className={classes.mobileMenu}>
+        <Contact
+          openContact={this.state.openContact}
+          setOpenContact={this.setOpenContact}
+          handleChange={this.handleChange}
+          name={this.state.contactName}
+          email={this.state.email}
+          message={this.state.message}
+          sendMessage={this.sendMessage}
+        />
         <MenuItem>
           <Link
             variant="body1"
@@ -105,17 +132,20 @@ class NavBar extends Component {
             About
           </Link>
         </MenuItem>
-        <MenuItem>
-          <Link
+        <MenuItem
+          onClick={e => {
+            this.setOpenContact(true);
+            this.handleMobileMenuClose(e);
+          }}>
+          <Typography
             variant="body1"
+            component="body1"
             underline="none"
-            className={classes.navLink}
-            component={RouterLink}
-            activeClassName={classes.active}
-            to="/contact"
-            onClick={this.handleMobileMenuClose}>
+            className={[classes.navLink, classes.navLinkDesktop]}
+            style={{ cursor: "pointer" }}
+            activeClassName={classes.active}>
             Contact
-          </Link>
+          </Typography>
         </MenuItem>
         {this.props.role === "admin" && <hr />}
         {this.props.role === "admin" && (
@@ -235,18 +265,18 @@ class NavBar extends Component {
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link
+                    <Typography
                       variant="h3"
                       underline="none"
                       className={[
                         classes.navLink,
                         classes.navLinkDesktop,
                       ]}
-                      component={RouterLink}
+                      style={{ cursor: "pointer" }}
                       activeClassName={classes.active}
-                      to="/contact">
+                      onClick={() => this.setOpenContact(true)}>
                       Contact
-                    </Link>
+                    </Typography>
                   </Grid>
                   {this.props.avatar !== null && (
                     <Grid item>

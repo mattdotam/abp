@@ -6,7 +6,6 @@ import { Route, Switch } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import Home from "./Home";
 import About from "./About";
-import Contact from "./Contact";
 import Admin from "./Admin";
 import ViewTag from "./ViewTag";
 import ViewAlbum from "./ViewAlbum";
@@ -119,6 +118,8 @@ class App extends Component {
             clearRole={this.clearRole}
             clearToken={this.clearToken}
             clearAvatar={this.clearAvatar}
+            loading={this.state.loading}
+            setLoading={this.setLoading}
           />
         </Grid>
         <Grid item>
@@ -138,11 +139,6 @@ class App extends Component {
               exact
               path={["/about", "/about/"]}
               render={() => <About />}
-            />
-            <Route
-              exact
-              path={["/contact", "/contact/"]}
-              render={() => <Contact />}
             />
             <Route
               exact
