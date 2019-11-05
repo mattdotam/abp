@@ -54,9 +54,9 @@ class NavBar extends Component {
   }
   async sendMessage(msg) {
     console.log("sendMessage msg: ", { ...msg });
-    // await axios.post("/.netlify/functions/message", {
-    //   ...msg,
-    // });
+    await axios.post("/.netlify/functions/message", {
+      ...msg,
+    });
     this.props.setSnackbarMsg(`Message Sent`);
     return true;
   }
