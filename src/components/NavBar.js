@@ -148,9 +148,9 @@ class NavBar extends Component {
           }}>
           <Typography
             variant="body1"
-            component="body1"
+            component="a"
             underline="none"
-            className={[classes.navLink, classes.navLinkDesktop]}
+            className={classes.navLink}
             style={{ cursor: "pointer" }}
             activeClassName={classes.active}>
             Contact
