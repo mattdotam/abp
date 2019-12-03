@@ -214,7 +214,7 @@ const Admin = props => {
             <Grid spacing={1} direction="column">
               <Grid item>
                 <GoogleLogin
-                  clientId="88561498986-54t72qa2e37kslmi3uiblm3gu0te32ev.apps.googleusercontent.com"
+                  clientId="848530449150-njlmg8c6lcmje64f10sjrbgmje8kp82c.apps.googleusercontent.com"
                   buttonText="Login"
                   onSuccess={responseGoogle}
                   onFailure={responseGoogle}

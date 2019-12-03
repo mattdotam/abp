@@ -9,13 +9,13 @@ exports.handler = async (event, context) => {
   }
   const params = JSON.parse(event.body);
   const client = new OAuth2Client(
-    "88561498986-54t72qa2e37kslmi3uiblm3gu0te32ev.apps.googleusercontent.com"
+    "848530449150-njlmg8c6lcmje64f10sjrbgmje8kp82c.apps.googleusercontent.com"
   );
   async function verify() {
     const ticket = await client.verifyIdToken({
       idToken: params.idToken,
       audience:
-        "88561498986-54t72qa2e37kslmi3uiblm3gu0te32ev.apps.googleusercontent.com",
+        "848530449150-njlmg8c6lcmje64f10sjrbgmje8kp82c.apps.googleusercontent.com",
     });
     const payload = ticket.getPayload();
     const userid = payload["sub"];
@@ -26,7 +26,8 @@ exports.handler = async (event, context) => {
   let userid = await verify();
   if (
     userid === params.userid &&
-    params.userid === "112472186758723060910"
+    (params.userid === "104296086149649536703" ||
+      params.userid === "112472186758723060910")
   ) {
     const token = jwt.sign(
       { userid, role: "admin" },
